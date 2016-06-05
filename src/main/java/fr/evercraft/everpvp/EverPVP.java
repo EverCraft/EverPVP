@@ -23,6 +23,7 @@ import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.services.pvp.PVPService;
 import fr.evercraft.everpvp.service.EPVPService;
+import fr.evercraft.everpvp.service.ManagerEvent;
 
 @Plugin(id = "fr.evercraft.everpvp", 
 		name = "EverPVP", 
@@ -38,12 +39,15 @@ public class EverPVP extends EPlugin {
 	private EPConfig configs;
 	private EPMessage messages;
 	private EPVPService service;
+	private ManagerEvent event;
 	
 	@Override
 	protected void onPreEnable() throws PluginDisableException {
 		// Configurations
 		this.configs = new EPConfig(this);
 		this.messages = new EPMessage(this);
+		this.event = new ManagerEvent(this);
+		
 		this.service = new EPVPService(this);
 		
 		this.getGame().getServiceManager().setProvider(this, PVPService.class, this.service);
@@ -75,6 +79,10 @@ public class EverPVP extends EPlugin {
 	
 	public EPMessage getMessages(){
 		return this.messages;
+	}
+	
+	public ManagerEvent getManagerEvent(){
+		return this.event;
 	}
 	
 	public EPVPService getService(){
