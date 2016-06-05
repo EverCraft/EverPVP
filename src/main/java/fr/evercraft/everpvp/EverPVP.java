@@ -22,6 +22,7 @@ import org.spongepowered.api.plugin.Plugin;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.services.pvp.PVPService;
+import fr.evercraft.everpvp.service.EPVPService;
 
 @Plugin(id = "fr.evercraft.everpvp", 
 		name = "EverPVP", 
