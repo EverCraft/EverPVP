@@ -23,7 +23,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
-import fr.evercraft.everapi.server.player.EPlayer;
+
 import fr.evercraft.everapi.services.pvp.event.FightEvent;
 
 
@@ -36,7 +36,6 @@ public class EPListener {
 	
 	@Listener
 	public void onEntityDeath(DamageEntityEvent event) {
-		this.plugin.getEServer().broadcast("test 0");
 		Optional<EntityDamageSource> optDamageSource = event.getCause().first(EntityDamageSource.class);
 	    if(optDamageSource.isPresent()) {
 	        Entity entity = optDamageSource.get().getSource();

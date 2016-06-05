@@ -73,10 +73,10 @@ public class EPVPService implements PVPService{
 	
 	public boolean add(UUID player_uuid, UUID other_uuid, boolean victim){
 		if (!this.players.contains(player_uuid)){
-			this.plugin.getLogger().debug("FightEvent.Start : (UUID='" + player_uuid + "')");
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);
 			Optional<EPlayer> other = this.plugin.getEServer().getEPlayer(other_uuid);
 			if(player.isPresent() && other.isPresent()) {
+				this.plugin.getLogger().debug("FightEvent.Start : (UUID='" + player_uuid + "')");
 				this.plugin.getGame().getEventManager().post(new EStartFightEvent(player.get(), other.get(), victim, Cause.source(this.plugin).build()));
 			}
 		}
