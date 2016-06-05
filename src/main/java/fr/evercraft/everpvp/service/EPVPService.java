@@ -112,8 +112,8 @@ public class EPVPService implements PVPService{
 		if(this.task == null) {
 			this.task = this.plugin.getGame().getScheduler().createTaskBuilder()
 					.execute(() -> taskAsyncUpdate())
-					.delay(60, TimeUnit.MINUTES)
-					.interval(60, TimeUnit.MINUTES)
+					.delay(60, TimeUnit.SECONDS)
+					.interval(60, TimeUnit.SECONDS)
 					.async()
 					.submit(this.plugin);
 			return true;
