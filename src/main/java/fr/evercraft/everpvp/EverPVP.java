@@ -21,6 +21,7 @@ import org.spongepowered.api.plugin.Plugin;
 
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.services.pvp.PVPService;
 
 @Plugin(id = "fr.evercraft.everpvp", 
 		name = "EverPVP", 
@@ -35,24 +36,32 @@ public class EverPVP extends EPlugin {
 
 	private EPConfig configs;
 	private EPMessage messages;
+	private EPVPService service;
 	
 	@Override
 	protected void onPreEnable() throws PluginDisableException {
 		// Configurations
 		this.configs = new EPConfig(this);
 		this.messages = new EPMessage(this);
+		this.service = new EPVPService(this);
+		
+		this.getGame().getServiceManager().setProvider(this, PVPService.class, this.service);
 	}
 	
 	@Override
 	protected void onCompleteEnable() throws PluginDisableException {		
 		// Commands
 		new EPCommand(this);
+		
+		// Listerners
+		this.getGame().getEventManager().registerListeners(this, new EPListener(this));
 	}
 	
 	@Override
 	protected void onReload() throws PluginDisableException {
 		// Configurations
 		this.reloadConfigurations();
+		this.service.reload();
 	}
 	
 	@Override
@@ -65,5 +74,9 @@ public class EverPVP extends EPlugin {
 	
 	public EPMessage getMessages(){
 		return this.messages;
+	}
+	
+	public EPVPService getService(){
+		return this.service;
 	}
 }

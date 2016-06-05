@@ -61,18 +61,18 @@ public class EPCommand extends ECommand<EverPVP> {
 
 		Builder build;
 		if(help || reload){
-			build = Text.builder("/eco <");
+			build = Text.builder("/everpvp <");
 			if(help){
-				build = build.append(Text.builder("help").onClick(TextActions.suggestCommand("/eco help")).build());
+				build = build.append(Text.builder("help").onClick(TextActions.suggestCommand("/everpvp help")).build());
 				if(reload){
 					build = build.append(Text.builder("|").build());
 				}
 			}
 			if(reload){
-				build = build.append(Text.builder("reload").onClick(TextActions.suggestCommand("/eco reload")).build());
+				build = build.append(Text.builder("reload").onClick(TextActions.suggestCommand("/everpvp reload")).build());
 			}
 		} else {
-			build = Text.builder("/eco").onClick(TextActions.suggestCommand("/eco"));
+			build = Text.builder("/everpvp").onClick(TextActions.suggestCommand("/everpvp"));
 		}
 		return build.color(TextColors.RED).build();
 	}
