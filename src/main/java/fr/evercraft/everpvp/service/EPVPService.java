@@ -47,7 +47,7 @@ public class EPVPService implements PVPService{
 	
 	@Override
 	public boolean isFight(UUID uuid) {
-		if(players.contains(uuid)){
+		if(players.containsKey(uuid)){
 			return true;
 		} else {
 			return false;
@@ -55,7 +55,7 @@ public class EPVPService implements PVPService{
 	}
 
 	public boolean isFight(EPlayer player) {
-		if(players.contains(player.getUniqueId())){
+		if(players.containsKey(player.getUniqueId())){
 			return true;
 		} else {
 			return false;
@@ -65,14 +65,14 @@ public class EPVPService implements PVPService{
 	@Override
 	public Optional<Long> getTime(UUID uuid) {
 		Long time = null;
-		if(players.contains(uuid)){
+		if(players.containsKey(uuid)){
 			time = players.get(uuid).longValue();
 		}
 		return Optional.ofNullable(time);
 	}
 	
 	public boolean add(UUID player_uuid, UUID other_uuid, boolean victim){
-		if (!this.players.contains(player_uuid)){
+		if (!this.players.containsKey(player_uuid)){
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);
 			Optional<EPlayer> other = this.plugin.getEServer().getEPlayer(other_uuid);
 			if(player.isPresent() && other.isPresent()) {
