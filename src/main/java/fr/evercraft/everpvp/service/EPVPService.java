@@ -58,7 +58,7 @@ public class EPVPService implements PVPService{
 		this.players_end.clear();
 		
 		// Start
-		this.cooldown = this.plugin.getConfigs().getCooldown();
+		this.cooldown = this.plugin.getConfigs().getCooldown() * 1000;
 	}
 	
 	@Override
@@ -75,7 +75,7 @@ public class EPVPService implements PVPService{
 	}
 	
 	public boolean add(UUID player_uuid, UUID other_uuid, boolean victim) {
-		long time = System.currentTimeMillis() + (this.cooldown * 1000);
+		long time = System.currentTimeMillis() + this.cooldown;
 		// Si le joueur est pas encore en combat
 		if (!this.isFight(player_uuid)) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);

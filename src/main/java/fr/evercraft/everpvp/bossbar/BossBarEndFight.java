@@ -91,12 +91,12 @@ public class BossBarEndFight {
 		
 		this.stay = this.plugin.getConfigs().getBossBarEndFightStay();
 		this.percent = this.plugin.getConfigs().getBossBarEndFightPercent() / 100;
-		this.message = this.plugin.getConfigs().getBossBarFightMessage();
-		this.color = this.plugin.getConfigs().getBossBarFightColor();
-		this.overlay = this.plugin.getConfigs().getBossBarFightOverlay();
-		this.darkenSky = this.plugin.getConfigs().getBossBarFightDarkenSky();
-		this.playEndBossMusic = this.plugin.getConfigs().getBossBarFightPlayEndBossMusic();
-		this.createFog = this.plugin.getConfigs().getBossBarFightCreateFog();
+		this.message = this.plugin.getConfigs().getBossBarEndFightMessage();
+		this.color = this.plugin.getConfigs().getBossBarEndFightColor();
+		this.overlay = this.plugin.getConfigs().getBossBarEndFightOverlay();
+		this.darkenSky = this.plugin.getConfigs().getBossBarEndFightDarkenSky();
+		this.playEndBossMusic = this.plugin.getConfigs().getBossBarEndFightPlayEndBossMusic();
+		this.createFog = this.plugin.getConfigs().getBossBarEndFightCreateFog();
 	}
 	
 	private boolean send(EPlayer player) {
@@ -105,6 +105,12 @@ public class BossBarEndFight {
 		Optional<ServerBossBar> bossbar = player.getBossBar(this.priority);
 		if(bossbar.isPresent()) {
 			bossbar.get().setName(text);
+			bossbar.get().setPercent(this.percent);
+			bossbar.get().setColor(this.color);
+			bossbar.get().setOverlay(this.overlay);
+			bossbar.get().setDarkenSky(this.darkenSky);
+			bossbar.get().setPlayEndBossMusic(this.playEndBossMusic);
+			bossbar.get().setCreateFog(this.createFog);
 			return true;
 		} else {
 			return player.addBossBar(priority, ServerBossBar.builder()

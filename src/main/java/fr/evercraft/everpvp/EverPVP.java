@@ -53,7 +53,10 @@ public class EverPVP extends EPlugin {
 		this.configs = new EPConfig(this);
 		this.messages = new EPMessage(this);
 		this.event = new ManagerEvent(this);
-		
+	}
+	
+	@Override
+	protected void onEnable() throws PluginDisableException {
 		this.task = new ETask(this);
 		this.bossbar = new ManagerBossBar(this);
 		this.service = new EPVPService(this);

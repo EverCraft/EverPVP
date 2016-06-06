@@ -48,7 +48,7 @@ public class BossBarFight {
 	private final EverPVP plugin;
 	
 	private int priority;
-	private long cooldown;
+	private float cooldown;
 
 	private String message;
 	private BossBarColor color;
@@ -64,12 +64,14 @@ public class BossBarFight {
 	}
 		
 	public void reload() {
-		this.cooldown = this.plugin.getConfigs().getCooldown();
+		this.cooldown = this.plugin.getConfigs().getCooldown() * 1000;
 		
 		this.priority = PriorityService.DEFAULT;
 		if(this.plugin.getEverAPI().getManagerService().getPriority().isPresent()) {
 			this.priority = this.plugin.getEverAPI().getManagerService().getPriority().get().getBossBar(ManagerBossBar.IDENTIFIER);
 		}
+		
+		this.plugin.getLogger().warn("Priority : " + this.priority);
 		
 		this.message = this.plugin.getConfigs().getBossBarFightMessage();
 		this.color = this.plugin.getConfigs().getBossBarFightColor();
@@ -87,8 +89,7 @@ public class BossBarFight {
 	 */
 	public boolean send(EPlayer player, long time) {
 		Text text = player.replaceVariable(this.message.replaceAll("<time>", this.plugin.getEverAPI().getManagerUtils().getDate().formatDateDiff(time)));
-		long percent = Math.min(this.cooldown, time - System.currentTimeMillis())/this.cooldown;
-		
+		float percent = Math.max(0, Math.min(1, (time - System.currentTimeMillis()) / this.cooldown));
 		
 		Optional<ServerBossBar> bossbar = player.getBossBar(this.priority);
 		if(bossbar.isPresent()) {
@@ -96,7 +97,7 @@ public class BossBarFight {
 			bossbar.get().setPercent(percent);
 			return true;
 		} else {
-			return player.addBossBar(priority, ServerBossBar.builder()
+			return player.addBossBar(this.priority, ServerBossBar.builder()
 					.name(text)
 					.percent(percent)
 					.color(this.color)
