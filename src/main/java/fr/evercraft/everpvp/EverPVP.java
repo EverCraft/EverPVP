@@ -22,7 +22,9 @@ import org.spongepowered.api.plugin.Plugin;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.services.pvp.PVPService;
+import fr.evercraft.everpvp.bossbar.ManagerBossBar;
 import fr.evercraft.everpvp.service.EPVPService;
+import fr.evercraft.everpvp.service.ETask;
 import fr.evercraft.everpvp.service.ManagerEvent;
 
 @Plugin(id = "fr.evercraft.everpvp", 
@@ -39,7 +41,11 @@ public class EverPVP extends EPlugin {
 	private EPConfig configs;
 	private EPMessage messages;
 	private EPVPService service;
+	
+	private ETask task;
+	
 	private ManagerEvent event;
+	private ManagerBossBar bossbar;
 	
 	@Override
 	protected void onPreEnable() throws PluginDisableException {
@@ -48,6 +54,8 @@ public class EverPVP extends EPlugin {
 		this.messages = new EPMessage(this);
 		this.event = new ManagerEvent(this);
 		
+		this.task = new ETask(this);
+		this.bossbar = new ManagerBossBar(this);
 		this.service = new EPVPService(this);
 		
 		this.getGame().getServiceManager().setProvider(this, PVPService.class, this.service);
@@ -66,6 +74,7 @@ public class EverPVP extends EPlugin {
 	protected void onReload() throws PluginDisableException {
 		// Configurations
 		this.reloadConfigurations();
+		this.bossbar.reload();
 		this.service.reload();
 	}
 	
@@ -85,7 +94,15 @@ public class EverPVP extends EPlugin {
 		return this.event;
 	}
 	
+	public ManagerBossBar getManagerBossBar(){
+		return this.bossbar;
+	}
+	
 	public EPVPService getService(){
 		return this.service;
+	}
+	
+	public ETask getTask(){
+		return this.task;
 	}
 }

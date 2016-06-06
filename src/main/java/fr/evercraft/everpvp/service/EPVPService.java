@@ -22,9 +22,6 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-
-import org.spongepowered.api.scheduler.Task;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.pvp.PVPService;
@@ -32,118 +29,124 @@ import fr.evercraft.everpvp.EverPVP;
 
 public class EPVPService implements PVPService{
 	private final ConcurrentHashMap<UUID, Long> players;
+	private final ConcurrentHashMap<UUID, Long> players_end;
 	private final EverPVP plugin;
 	private long cooldown; 
-	
-	private Task task;
 	
 	public EPVPService(final EverPVP plugin){
 		this.plugin = plugin;
 		this.players = new ConcurrentHashMap<UUID, Long>();
+		this.players_end = new ConcurrentHashMap<UUID, Long>();
 		this.cooldown = 0;
 		reload();
 	}
 	
 	public void reload() {
-		this.players.clear();
-		this.cooldown = this.plugin.getConfigs().getCooldown();
-		
-		for(Entry<UUID, Long> player : this.players.entrySet()) {
-			this.plugin.getManagerEvent().fightStop(player.getKey());
+		// Stop
+		for(Entry<UUID, Long> player_uuid : this.players.entrySet()) {
+			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid.getKey());
+			if(player.isPresent()) {
+				// BossBar
+				this.plugin.getManagerBossBar().getFight().remove(player.get());
+				// Event
+				this.plugin.getManagerEvent().fightStop(player.get());
+			}
 		}
+		
+		this.players.clear();
+		this.players_end.clear();
+		
+		// Start
+		this.cooldown = this.plugin.getConfigs().getCooldown();
 	}
 	
 	@Override
 	public boolean isFight(UUID uuid) {
-		if(players.containsKey(uuid)){
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean isFight(EPlayer player) {
-		if(players.containsKey(player.getUniqueId())){
-			return true;
-		} else {
-			return false;
-		}
+		return players.containsKey(uuid);
 	}
 
 	@Override
-	public Optional<Long> getTime(UUID uuid) {
-		Long time = null;
-		if(players.containsKey(uuid)){
-			time = players.get(uuid).longValue();
+	public Optional<Long> getTime(UUID player_uuid) {
+		if(this.isFight(player_uuid)){
+			return Optional.of(this.players.get(player_uuid));
 		}
-		return Optional.ofNullable(time);
+		return Optional.empty();
 	}
 	
 	public boolean add(UUID player_uuid, UUID other_uuid, boolean victim){
-		if (!this.players.containsKey(player_uuid)){
-			this.plugin.getManagerEvent().fightStart(player_uuid, other_uuid, victim);
-			this.taskCheck();
+		// Si le joueur est pas encore en combat
+		if (!this.isFight(player_uuid)) {
+			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);
+			if(player.isPresent()) {
+				// BossBar
+				this.plugin.getManagerBossBar().getFight().send(player.get(), this.cooldown);
+				// Event
+				this.plugin.getManagerEvent().fightStart(player.get(), other_uuid, victim);
+			}
+			// Task
+			this.plugin.getTask().reload();
 		}
 		this.players.put(player_uuid, System.currentTimeMillis() + this.cooldown);
 		return true;
 	}
 	
 	public boolean remove(UUID player_uuid){
-		if (this.players.remove(player_uuid) != null){
-			this.plugin.getManagerEvent().fightStop(player_uuid);
-			this.taskCheck();
+		// Si le joueur n'était pas de combat
+		if (this.players.remove(player_uuid) != null) {
+			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);
+			if(player.isPresent()) {
+				// BossBar
+				this.plugin.getManagerEvent().fightStop(player.get());
+				// Event
+				this.plugin.getManagerBossBar().getEndFight().add(player.get());
+			}
+			// Task
+			this.plugin.getTask().reload();
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	private void taskCheck() {
-		// Si il y a pas de scheduler et qu'il y a des joueurs
-		if(this.task == null && !this.players.isEmpty()) {
-			this.taskStart();
-		// Si il y a un scheduler et qu'il n'y a pas de joueur
-		} else if(this.task != null && this.players.isEmpty()) {
-			this.taskStop();
-		}
+	/*
+	 * Task : Mise à jour
+	 */
+	
+	/**
+	 * Savoir si il faut mettre à jour
+	 * @return True si il faut mettre à jour
+	 */
+	public boolean update() {
+		return !this.players.isEmpty();
 	}
 	
-	private boolean taskStart() {
-		if(this.task == null) {
-			this.task = this.plugin.getGame().getScheduler().createTaskBuilder()
-					.execute(() -> taskAsyncUpdate())
-					.delay(60, TimeUnit.SECONDS)
-					.interval(60, TimeUnit.SECONDS)
-					.async()
-					.submit(this.plugin);
-			return true;
-		}
-		return false;
-	}
-	
-	private boolean taskStop() {
-		if(this.task != null) {
-			this.task.cancel();
-			return true;
-		}
-		return false;
-	}
-	
-	private void taskAsyncUpdate() {
+	/**
+	 * Mise à jour Async
+	 */
+	public void updateAsync() {
 		final List<UUID> players = new ArrayList<UUID>();
 		long time = System.currentTimeMillis();
-		for(Entry<UUID, Long> player : this.players.entrySet()) {
-			if(player.getValue() <= time) {
-				players.add(player.getKey());
+		for(Entry<UUID, Long> player_uuid : this.players.entrySet()) {
+			if(player_uuid.getValue() <= time) {
+				players.add(player_uuid.getKey());
+			} else {
+				Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid.getKey());
+				if(player.isPresent()) {
+					// BossBar
+					this.plugin.getManagerBossBar().getFight().send(player.get(), player_uuid.getValue() - time);
+				}
 			}
 		}
 		
-		this.task = this.plugin.getGame().getScheduler().createTaskBuilder()
-				.execute(() -> taskSyncUpdate(players))
+		this.plugin.getGame().getScheduler().createTaskBuilder()
+				.execute(() -> updateSync(players))
 				.submit(this.plugin);
 	}
 	
-	private void taskSyncUpdate(final List<UUID> players) {
+	/**
+	 * Mise à jour Sync
+	 */
+	private void updateSync(final List<UUID> players) {
 		for(UUID player : players) {
 			this.remove(player);
 		}
