@@ -76,6 +76,7 @@ public class EverPVP extends EPlugin {
 		this.reloadConfigurations();
 		this.bossbar.reload();
 		this.service.reload();
+		this.task.reload();
 	}
 	
 	@Override

@@ -38,7 +38,8 @@ public class EPVPService implements PVPService{
 		this.players = new ConcurrentHashMap<UUID, Long>();
 		this.players_end = new ConcurrentHashMap<UUID, Long>();
 		this.cooldown = 0;
-		reload();
+		
+		this.reload();
 	}
 	
 	public void reload() {
@@ -73,20 +74,21 @@ public class EPVPService implements PVPService{
 		return Optional.empty();
 	}
 	
-	public boolean add(UUID player_uuid, UUID other_uuid, boolean victim){
+	public boolean add(UUID player_uuid, UUID other_uuid, boolean victim) {
+		long time = System.currentTimeMillis() + (this.cooldown * 1000);
 		// Si le joueur est pas encore en combat
 		if (!this.isFight(player_uuid)) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);
 			if(player.isPresent()) {
 				// BossBar
-				this.plugin.getManagerBossBar().getFight().send(player.get(), this.cooldown);
+				this.plugin.getManagerBossBar().getFight().send(player.get(), time);
 				// Event
 				this.plugin.getManagerEvent().fightStart(player.get(), other_uuid, victim);
 			}
 			// Task
 			this.plugin.getTask().reload();
 		}
-		this.players.put(player_uuid, System.currentTimeMillis() + this.cooldown);
+		this.players.put(player_uuid, time);
 		return true;
 	}
 	
@@ -133,14 +135,16 @@ public class EPVPService implements PVPService{
 				Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid.getKey());
 				if(player.isPresent()) {
 					// BossBar
-					this.plugin.getManagerBossBar().getFight().send(player.get(), player_uuid.getValue() - time);
+					this.plugin.getManagerBossBar().getFight().send(player.get(), player_uuid.getValue());
 				}
 			}
 		}
 		
-		this.plugin.getGame().getScheduler().createTaskBuilder()
-				.execute(() -> updateSync(players))
-				.submit(this.plugin);
+		if(!players.isEmpty()) {
+			this.plugin.getGame().getScheduler().createTaskBuilder()
+					.execute(() -> updateSync(players))
+					.submit(this.plugin);
+		}
 	}
 	
 	/**

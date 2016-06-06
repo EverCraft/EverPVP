@@ -43,8 +43,8 @@ public class EPConfig extends EConfig {
 		
 		// BossBar : Fight
 		addDefault("bossbar.fight.message", "&4Vous êtes en combat pour encore <time> !");
-		addDefault("bossbar.fight.color", BossBarColors.RED);
-		addDefault("bossbar.fight.overlay", BossBarOverlays.PROGRESS);
+		addDefault("bossbar.fight.color", BossBarColors.RED.getName());
+		addDefault("bossbar.fight.overlay", BossBarOverlays.PROGRESS.getName());
 		addDefault("bossbar.fight.darkenSky", false);
 		addDefault("bossbar.fight.playEndBossMusic", false);
 		addDefault("bossbar.fight.createFog", false);
@@ -53,8 +53,8 @@ public class EPConfig extends EConfig {
 		addDefault("bossbar.end-fight.stay", 15);
 		addDefault("bossbar.end-fight.percent", 100);
 		addDefault("bossbar.end-fight.message", "&aVous n'êtes plus en combat !");
-		addDefault("bossbar.end-fight.color", BossBarColors.GREEN);
-		addDefault("bossbar.end-fight.overlay", BossBarOverlays.PROGRESS);
+		addDefault("bossbar.end-fight.color", BossBarColors.GREEN.getName());
+		addDefault("bossbar.end-fight.overlay", BossBarOverlays.PROGRESS.getName());
 		addDefault("bossbar.end-fight.darkenSky", false);
 		addDefault("bossbar.end-fight.playEndBossMusic", false);
 		addDefault("bossbar.end-fight.createFog", false);
