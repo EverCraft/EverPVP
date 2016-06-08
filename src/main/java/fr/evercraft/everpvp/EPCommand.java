@@ -29,7 +29,7 @@ import org.spongepowered.api.text.format.TextColors;
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.ECommand;
-import fr.evercraft.everpvp.EPMessage.ESMessages;
+import fr.evercraft.everpvp.EPMessage.EPMessages;
 
 public class EPCommand extends ECommand<EverPVP> {
 	
@@ -42,7 +42,7 @@ public class EPCommand extends ECommand<EverPVP> {
 	}
 
 	public Text description(final CommandSource source) {
-		return ESMessages.DESCRIPTION.getText();
+		return EPMessages.DESCRIPTION.getText();
 	}
 	
 	public List<String> tabCompleter(final CommandSource source, final List<String> args) throws CommandException {
@@ -108,7 +108,7 @@ public class EPCommand extends ECommand<EverPVP> {
 
 	private boolean commandReload(final CommandSource player) {
 		this.plugin.reload();
-		player.sendMessage(EChat.of(ESMessages.PREFIX.get() + EAMessages.RELOAD_COMMAND.get()));
+		player.sendMessage(EChat.of(EPMessages.PREFIX.get() + EAMessages.RELOAD_COMMAND.get()));
 		return true;
 	}
 	
