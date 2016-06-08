@@ -31,23 +31,24 @@ import fr.evercraft.everapi.plugin.file.EnumMessage;
 public class EPMessage extends EMessage {
 
 	public EPMessage(EverPVP plugin) {
-		super(plugin, ESMessages.values());
+		super(plugin, EPMessages.values());
 	}
 
-	public enum ESMessages implements EnumMessage {
+	public enum EPMessages implements EnumMessage {
 		PREFIX("prefix", "[&4Ever&6&lPVP&f] "),
-		DESCRIPTION("description", "");
+		DESCRIPTION("description", ""),
+		ARROW_INFORMATION("arrow.information", "&6<player> &7est maintenant à <heal> &4❤&7.");
 		
 		private final String path;
 	    private final Object french;
 	    private final Object english;
 	    private Object message;
 	    
-	    private ESMessages(final String path, final Object french) {   	
+	    private EPMessages(final String path, final Object french) {   	
 	    	this(path, french, french);
 	    }
 	    
-	    private ESMessages(final String path, final Object french, final Object english) {
+	    private EPMessages(final String path, final Object french, final Object english) {
 	    	Preconditions.checkNotNull(french, "Le message '" + this.name() + "' n'est pas définit");
 	    	
 	    	this.path = path;	    	
