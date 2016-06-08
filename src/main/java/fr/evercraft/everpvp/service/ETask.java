@@ -67,6 +67,7 @@ public class ETask {
 	private boolean taskStop() {
 		if(this.task != null) {
 			this.task.cancel();
+			this.task = null;
 			return true;
 		}
 		return false;

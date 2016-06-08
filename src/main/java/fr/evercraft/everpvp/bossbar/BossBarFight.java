@@ -95,6 +95,11 @@ public class BossBarFight {
 		if(bossbar.isPresent()) {
 			bossbar.get().setName(text);
 			bossbar.get().setPercent(percent);
+			bossbar.get().setColor(this.color);
+			bossbar.get().setOverlay(this.overlay);
+			bossbar.get().setDarkenSky(this.darkenSky);
+			bossbar.get().setPlayEndBossMusic(this.playEndBossMusic);
+			bossbar.get().setCreateFog(this.createFog);
 			return true;
 		} else {
 			return player.addBossBar(this.priority, ServerBossBar.builder()
