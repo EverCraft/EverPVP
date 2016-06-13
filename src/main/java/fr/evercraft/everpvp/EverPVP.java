@@ -29,12 +29,12 @@ import fr.evercraft.everpvp.service.ManagerEvent;
 
 @Plugin(id = "fr.evercraft.everpvp", 
 		name = "EverPVP", 
-		version = "1.1", 
+		version = "1.2", 
 		description = "PVP",
 		url = "http://evercraft.fr/",
 		authors = {"rexbut","lesbleu"},
 		dependencies = {
-		    @Dependency(id = "fr.evercraft.everapi", version = "1.1")
+		    @Dependency(id = "fr.evercraft.everapi", version = "1.2")
 		})
 public class EverPVP extends EPlugin {
 
