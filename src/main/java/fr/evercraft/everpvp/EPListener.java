@@ -21,13 +21,16 @@ import java.util.Optional;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.projectile.Projectile;
 import org.spongepowered.api.entity.projectile.arrow.Arrow;
 import org.spongepowered.api.entity.projectile.source.ProjectileSource;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
+import org.spongepowered.api.event.entity.DestructEntityEvent;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 
-import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.services.pvp.event.FightEvent;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
 
@@ -46,31 +49,48 @@ public class EPListener {
 	    	Entity entity = optDamageSource.get().getSource();
 	        Entity targetEntity = event.getTargetEntity();
 	        // Event FightEvent.Start
-	        if(entity instanceof Player && targetEntity instanceof Player) {
-	        	this.plugin.getService().add(entity.getUniqueId(), targetEntity.getUniqueId(), false);
-	        	this.plugin.getService().add(targetEntity.getUniqueId(), entity.getUniqueId(), true);
-	        }
-	        
-	        if(entity instanceof Arrow){
-	        	ProjectileSource proj = ((Arrow)entity).getShooter();
-	        	if (proj instanceof Player){
-	        		Optional<EPlayer> optShooter = this.plugin.getEServer().getEPlayer(((Player)proj));
-	        		Optional<EPlayer> optVictim = this.plugin.getEServer().getEPlayer(targetEntity.getUniqueId());
-	        		if(optShooter.isPresent() && optVictim.isPresent()){
-	        			EPlayer shooter = optShooter.get();
-	        			EPlayer victim = optVictim.get();
-	        			Double heal = (victim.get(Keys.HEALTH).get() - event.getFinalDamage()) /2;
-	        			shooter.sendMessage(EPMessages.PREFIX.get() + EPMessages.ARROW_INFORMATION.get()
-	        					.replaceAll("<player>", victim.getDisplayName())
-	        					.replaceAll("<heal>", heal.toString()));
-	        		}
-	        	}
+	        if(targetEntity instanceof Player){
+		        if(entity instanceof Player) {
+		        	this.plugin.getService().add(entity.getUniqueId(), targetEntity.getUniqueId(), false);
+		        	this.plugin.getService().add(targetEntity.getUniqueId(), entity.getUniqueId(), true);
+		        }
+		        if(entity instanceof Projectile){
+		        	ProjectileSource projectile = ((Projectile)entity).getShooter();
+		        	if (projectile instanceof Player){
+	        			Player shooter = (Player) projectile;
+	        			Player victim = (Player) targetEntity;
+			        	this.plugin.getService().add(shooter.getUniqueId(), victim.getUniqueId(), false);
+			        	this.plugin.getService().add(victim.getUniqueId(), shooter.getUniqueId(), true);
+	        			if(shooter.hasPermission(EPPermissions.ARROW.get()) && entity instanceof Arrow){
+				        	Double heal = (victim.get(Keys.HEALTH).get() - event.getFinalDamage());
+		        			shooter.sendMessage(EChat.of(EPMessages.PREFIX.get() + EPMessages.ARROW_INFORMATION.get()
+		        					.replaceAll("<player>", victim.getName())
+		        					.replaceAll("<heal>", heal.toString())));
+		        		}
+		        	}
+		        }
 	        }
 	    }
 	}
 	
 	@Listener
 	public void onPlayerFight(FightEvent.Start event) {
-		this.plugin.getEServer().broadcast("test 2");
+		this.plugin.getEServer().broadcast("FightEvent.Start : " + event.getPlayer().getName());
+	}
+	
+	@Listener
+	public void onPlayerDisconnected(ClientConnectionEvent.Disconnect event) {
+		Player player = event.getTargetEntity();
+		this.plugin.getEServer().broadcast("" + player.getName());
+		this.plugin.getService().remove(player.getUniqueId());
+	}
+	
+	@Listener
+	public void onPlayerDeath(DestructEntityEvent.Death event) {
+		if(event.getTargetEntity() instanceof Player){
+			Player player = (Player) event.getTargetEntity();
+			this.plugin.getEServer().broadcast("" + player.getName());
+			this.plugin.getService().remove(player.getUniqueId());
+		}
 	}
 }
