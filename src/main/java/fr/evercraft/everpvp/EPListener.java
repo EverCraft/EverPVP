@@ -55,9 +55,7 @@ public class EPListener {
 		        	Optional<EPlayer> optKiller = this.plugin.getEServer().getEPlayer(entity.getUniqueId());
 		        	if(optKiller.isPresent()){
 		        		EPlayer killer = optKiller.get();
-		        		if (killer.getGameMode().equals(GameModes.CREATIVE)){
-		        			event.setCancelled(true);
-		        		} else {
+		        		if (!killer.getGameMode().equals(GameModes.CREATIVE)){
 				        	this.plugin.getService().add(entity.getUniqueId(), targetEntity.getUniqueId(), false);
 				        	this.plugin.getService().add(targetEntity.getUniqueId(), entity.getUniqueId(), true);
 		        		}
@@ -69,13 +67,11 @@ public class EPListener {
 		        		Optional<EPlayer> optShooter = this.plugin.getEServer().getEPlayer(((Player) projectile).getUniqueId());
 			        	if(optShooter.isPresent()){
 			        		EPlayer shooter = optShooter.get();
-			        		if (shooter.getGameMode().equals(GameModes.CREATIVE)){
-			        			event.setCancelled(true);
-			        		} else {
+			        		if (!shooter.getGameMode().equals(GameModes.CREATIVE)){
 					        	this.plugin.getService().add(shooter.getUniqueId(), victim.getUniqueId(), false);
 					        	this.plugin.getService().add(victim.getUniqueId(), shooter.getUniqueId(), true);
 			        			if(shooter.hasPermission(EPPermissions.ARROW.get()) && entity instanceof Arrow){
-						        	Double heal = (victim.get(Keys.HEALTH).get() - event.getFinalDamage());
+						        	Double heal = Math.max(0, victim.get(Keys.HEALTH).get() - event.getFinalDamage());
 				        			shooter.sendMessage(EPMessages.PREFIX.get() + EPMessages.ARROW_INFORMATION.get()
 				        					.replaceAll("<player>", victim.getName())
 				        					.replaceAll("<heal>", heal.toString()));
