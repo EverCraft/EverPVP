@@ -25,6 +25,7 @@ import org.spongepowered.api.entity.projectile.Projectile;
 import org.spongepowered.api.entity.projectile.arrow.Arrow;
 import org.spongepowered.api.entity.projectile.source.ProjectileSource;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
 import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
@@ -90,13 +91,13 @@ public class EPListener {
 	@Listener
 	public void onPlayerDeath(DestructEntityEvent event) {
 		if(event.getTargetEntity() instanceof Player){
-			Optional<EPlayer> optPlayer = this.plugin.getEServer().getEPlayer(event.getTargetEntity().getUniqueId());
-        	if(optPlayer.isPresent()){
-        		EPlayer player = optPlayer.get();
-        		if(player.isDead()){
-					this.plugin.getEServer().broadcast("Player death : " + player.getName());
-					this.plugin.getService().remove(player.getUniqueId());
-        		}
+			Optional<DamageSource> optDamageSource = event.getCause().first(DamageSource.class);
+			Player player = (Player) event.getTargetEntity();
+			if (optDamageSource.isPresent()) {
+				DamageSource damageSource = optDamageSource.get();
+				// Fin du FightEvent
+				this.plugin.getService().remove(player.getUniqueId());
+        		DamageSources.
         	}
 		}
 	}

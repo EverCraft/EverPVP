@@ -25,7 +25,8 @@ import fr.evercraft.everapi.plugin.EnumPermission;
 public enum EPPermissions implements EnumPermission {
 	HELP("help"),
 	RELOAD("reload"),
-	ARROW("arrow");
+	ARROW("arrow"),
+	UNTAG("untag");
 	
 	private final static String prefix = "everpvp";
 	
