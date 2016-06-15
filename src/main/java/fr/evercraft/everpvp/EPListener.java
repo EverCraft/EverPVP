@@ -21,7 +21,6 @@ import java.util.Optional;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.entity.projectile.Projectile;
 import org.spongepowered.api.entity.projectile.arrow.Arrow;
 import org.spongepowered.api.entity.projectile.source.ProjectileSource;
@@ -46,20 +45,14 @@ public class EPListener {
 	@Listener
 	public void onEntityDeath(DamageEntityEvent event) {
 		Optional<EntityDamageSource> optDamageSource = event.getCause().first(EntityDamageSource.class);
-	    if(optDamageSource.isPresent()) {
+	    if(optDamageSource.isPresent() && !event.willCauseDeath()) {
 	    	Entity entity = optDamageSource.get().getSource();
 	        Entity targetEntity = event.getTargetEntity();
 	        if(targetEntity instanceof Player){
 	        	Player victim = (Player) targetEntity;
 	        	if(entity instanceof Player) {
-		        	Optional<EPlayer> optKiller = this.plugin.getEServer().getEPlayer(entity.getUniqueId());
-		        	if(optKiller.isPresent()){
-		        		EPlayer killer = optKiller.get();
-		        		if (!killer.getGameMode().equals(GameModes.CREATIVE)){
-				        	this.plugin.getService().add(entity.getUniqueId(), targetEntity.getUniqueId(), false);
-				        	this.plugin.getService().add(targetEntity.getUniqueId(), entity.getUniqueId(), true);
-		        		}
-		        	}
+	        		this.plugin.getService().add(entity.getUniqueId(), targetEntity.getUniqueId(), false);
+		        	this.plugin.getService().add(targetEntity.getUniqueId(), entity.getUniqueId(), true);
 		        }
 		        if(entity instanceof Projectile){
 		        	ProjectileSource projectile = ((Projectile)entity).getShooter();
@@ -67,15 +60,13 @@ public class EPListener {
 		        		Optional<EPlayer> optShooter = this.plugin.getEServer().getEPlayer(((Player) projectile).getUniqueId());
 			        	if(optShooter.isPresent()){
 			        		EPlayer shooter = optShooter.get();
-			        		if (!shooter.getGameMode().equals(GameModes.CREATIVE)){
-					        	this.plugin.getService().add(shooter.getUniqueId(), victim.getUniqueId(), false);
-					        	this.plugin.getService().add(victim.getUniqueId(), shooter.getUniqueId(), true);
-			        			if(shooter.hasPermission(EPPermissions.ARROW.get()) && entity instanceof Arrow){
-						        	Double heal = Math.max(0, victim.get(Keys.HEALTH).get() - event.getFinalDamage());
-				        			shooter.sendMessage(EPMessages.PREFIX.get() + EPMessages.ARROW_INFORMATION.get()
-				        					.replaceAll("<player>", victim.getName())
-				        					.replaceAll("<heal>", heal.toString()));
-				        		}
+				        	this.plugin.getService().add(shooter.getUniqueId(), victim.getUniqueId(), false);
+				        	this.plugin.getService().add(victim.getUniqueId(), shooter.getUniqueId(), true);
+		        			if(shooter.hasPermission(EPPermissions.ARROW.get()) && entity instanceof Arrow){
+					        	Double heal = (victim.get(Keys.HEALTH).get() - event.getFinalDamage());
+			        			shooter.sendMessage(EPMessages.PREFIX.get() + EPMessages.ARROW_INFORMATION.get()
+			        					.replaceAll("<player>", victim.getName())
+			        					.replaceAll("<heal>", heal.toString()));
 			        		}
 			        	}
 		        	}
