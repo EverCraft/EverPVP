@@ -94,10 +94,10 @@ public class EPListener {
 			Optional<DamageSource> optDamageSource = event.getCause().first(DamageSource.class);
 			Player player = (Player) event.getTargetEntity();
 			if (optDamageSource.isPresent()) {
-				DamageSource damageSource = optDamageSource.get();
+				// DamageSource damageSource = optDamageSource.get();
 				// Fin du FightEvent
 				this.plugin.getService().remove(player.getUniqueId());
-        		DamageSources.
+
         	}
 		}
 	}
