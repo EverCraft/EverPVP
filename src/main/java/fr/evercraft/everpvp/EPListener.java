@@ -33,9 +33,9 @@ import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
+import fr.evercraft.everapi.event.FightEvent;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.pvp.event.FightEvent;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
 
 

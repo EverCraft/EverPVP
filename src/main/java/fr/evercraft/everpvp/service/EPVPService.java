@@ -24,7 +24,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.pvp.PVPService;
+import fr.evercraft.everapi.services.PVPService;
 import fr.evercraft.everpvp.EverPVP;
 
 public class EPVPService implements PVPService{

@@ -40,7 +40,7 @@ import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.priority.PriorityService;
+import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everpvp.EverPVP;
 
 public class BossBarFight {
@@ -91,7 +91,7 @@ public class BossBarFight {
 		Text text = player.replaceVariable(this.message.replaceAll("<time>", this.plugin.getEverAPI().getManagerUtils().getDate().formatDateDiff(time)));
 		float percent = Math.max(0, Math.min(1, (time - System.currentTimeMillis()) / this.cooldown));
 		
-		Optional<ServerBossBar> bossbar = player.getBossBar(this.priority);
+		Optional<ServerBossBar> bossbar = player.getBossBar(ManagerBossBar.IDENTIFIER);
 		if(bossbar.isPresent()) {
 			bossbar.get().setName(text);
 			bossbar.get().setPercent(percent);
@@ -102,7 +102,7 @@ public class BossBarFight {
 			bossbar.get().setCreateFog(this.createFog);
 			return true;
 		} else {
-			return player.addBossBar(this.priority, ServerBossBar.builder()
+			return player.addBossBar(ManagerBossBar.IDENTIFIER, this.priority, ServerBossBar.builder()
 					.name(text)
 					.percent(percent)
 					.color(this.color)
@@ -120,7 +120,7 @@ public class BossBarFight {
 	 * @return True si la BossBar est bien supprimé
 	 */
 	public boolean remove(EPlayer player) {
-		return player.removeBossBar(this.priority);
+		return player.removeBossBar(ManagerBossBar.IDENTIFIER);
 	}
 	
 }

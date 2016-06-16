@@ -45,7 +45,7 @@ import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.priority.PriorityService;
+import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everpvp.EverPVP;
 
 public class BossBarEndFight {
@@ -78,7 +78,7 @@ public class BossBarEndFight {
 		for(Entry<UUID, Long> player_uuid : this.players.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid.getKey());
 			if(player.isPresent()) {
-				player.get().removeBossBar(this.priority);
+				player.get().removeBossBar(ManagerBossBar.IDENTIFIER);
 			}
 		}
 		this.players.clear();
@@ -102,7 +102,7 @@ public class BossBarEndFight {
 	private boolean send(EPlayer player) {
 		Text text = player.replaceVariable(this.message);
 		
-		Optional<ServerBossBar> bossbar = player.getBossBar(this.priority);
+		Optional<ServerBossBar> bossbar = player.getBossBar(ManagerBossBar.IDENTIFIER);
 		if(bossbar.isPresent()) {
 			bossbar.get().setName(text);
 			bossbar.get().setPercent(this.percent);
@@ -113,7 +113,7 @@ public class BossBarEndFight {
 			bossbar.get().setCreateFog(this.createFog);
 			return true;
 		} else {
-			return player.addBossBar(priority, ServerBossBar.builder()
+			return player.addBossBar(ManagerBossBar.IDENTIFIER, this.priority, ServerBossBar.builder()
 					.name(text)
 					.percent(this.percent)
 					.color(this.color)
@@ -146,7 +146,7 @@ public class BossBarEndFight {
 	 */
 	public boolean remove(EPlayer player) {
 		if (this.players.remove(player.getUniqueId()) != null){
-			player.removeBossBar(this.priority);
+			player.removeBossBar(ManagerBossBar.IDENTIFIER);
 			this.plugin.getTask().reload();
 			return true;
 		}
