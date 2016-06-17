@@ -45,140 +45,173 @@ public class EPDeathMessage {
 		if(event.getTargetEntity() instanceof Player){
 			event.clearMessage();
 			Player victim = (Player) event.getTargetEntity();
-			String message = null;
 			Optional<IndirectEntityDamageSource> optIndirectEntity = event.getCause().first(IndirectEntityDamageSource.class);
 			if(optIndirectEntity.isPresent()){
-				this.plugin.getEServer().broadcast("Cause : IndirectEntityDamageSource");
+				this.plugin.getLogger().debug("Cause : IndirectEntityDamageSource");
 				IndirectEntityDamageSource damageSource = optIndirectEntity.get();
-				DamageType type = damageSource.getType();
-				this.plugin.getEServer().broadcast("Type : " + type);
-				this.plugin.getEServer().broadcast("Player : " + damageSource.getIndirectSource());
-				// Le killer est un joueur
-				if(damageSource.getIndirectSource() instanceof Player){
-					Player killer = (Player) damageSource.getIndirectSource();
-					if(type.equals(DamageTypes.ATTACK)){
-						message = EPMessages.INDIRECT_DAMAGE_PLAYER_ATTACK.get();
-					} else if(type.equals(DamageTypes.MAGIC)){
-						message = EPMessages.INDIRECT_DAMAGE_PLAYER_MAGIC.get();
-					}
-					this.plugin.getEServer().getBroadcastChannel().send(EChat.of(EPMessages.PREFIX.get() + message
-							.replaceAll("<player>", victim.getName())
-							.replaceAll("<killer>", killer.getName())));
-				// Le killer est une créature
-				} else {
-					Entity killer = damageSource.getSource();
-					if(type.equals(DamageTypes.ATTACK)){
-						message = EPMessages.INDIRECT_DAMAGE_ENTITY_ATTACK.get();
-					} else if(type.equals(DamageTypes.MAGIC)){
-						message = EPMessages.INDIRECT_DAMAGE_ENTITY_MAGIC.get();
-					}
-					victim.sendMessage(EChat.of(EPMessages.PREFIX.get() + message
-							.replaceAll("<player>", victim.getName())
-							.replaceAll("<monster>", killer.getType().getName())));
-				}
+				sendDeathMessage(damageSource, victim);
 			} else {
 				Optional<BlockDamageSource> optBlockDamage = event.getCause().first(BlockDamageSource.class);
 				if(optBlockDamage.isPresent()){
-					this.plugin.getEServer().broadcast("Cause : BlockDamageSource");
+					this.plugin.getLogger().debug("Cause : BlockDamageSource");
 					BlockDamageSource damageSource = optBlockDamage.get();
-					DamageType type = damageSource.getType();
-					this.plugin.getEServer().broadcast("Type : " + type);
-					if(type.equals(DamageTypes.CONTACT)){
-						message = EPMessages.BLOCK_DAMAGE_CONTACT.get();
-					} else if(type.equals(DamageTypes.FIRE)){
-						message = EPMessages.BLOCK_DAMAGE_FIRE.get();
-					} else {
-						message = event.getCause().toString();
-					}
+					sendDeathMessage(damageSource, victim);
 				} else {
 					Optional<FallingBlockDamageSource> optFallingBlock = event.getCause().first(FallingBlockDamageSource.class);
 					if(optFallingBlock.isPresent()){
-						this.plugin.getEServer().broadcast("Cause : FallingBlockDamageSource");
+						this.plugin.getLogger().debug("Cause : FallingBlockDamageSource");
 						FallingBlockDamageSource damageSource = optFallingBlock.get();
-						DamageType type = damageSource.getType();
-						this.plugin.getEServer().broadcast("Type : " + type);
-						if(type.equals(DamageTypes.CONTACT)){
-							message = EPMessages.FALLING_DAMAGE_CONTACT.get();
-						} else {
-							message = event.getCause().toString();
-						}
+						sendDeathMessage(damageSource, victim);
 					} else {
 						Optional<EntityDamageSource> optEntityDamage = event.getCause().first(EntityDamageSource.class);
 						if(optEntityDamage.isPresent()){
-							this.plugin.getEServer().broadcast("Cause : EntityDamageSource");
+							this.plugin.getLogger().debug("Cause : EntityDamageSource");
 							EntityDamageSource damageSource = optEntityDamage.get();
-							DamageType type = damageSource.getType();
-							this.plugin.getEServer().broadcast("Type : " + type);
-							// Le killer est un joueur
-							if(damageSource.getSource() instanceof Player){
-								Player killer = (Player) damageSource.getSource();
-								if(type.equals(DamageTypes.ATTACK)){
-									message = EPMessages.ENTITY_DAMAGE_PLAYER_ATTACK.get();
-								} else if(type.equals(DamageTypes.EXPLOSIVE)){
-									message = EPMessages.ENTITY_DAMAGE_PLAYER_EXPLOSIVE.get();
-								} else if(type.equals(DamageTypes.FIRE)){
-									message = EPMessages.ENTITY_DAMAGE_PLAYER_FIRE.get();
-								} else if(type.equals(DamageTypes.MAGIC)){
-									message = EPMessages.ENTITY_DAMAGE_PLAYER_MAGIC.get();
-								} else {
-									message = event.getCause().toString();
-								}
-								this.plugin.getEServer().getBroadcastChannel().send(EChat.of(EPMessages.PREFIX.get() + message
-										.replaceAll("<player>", victim.getName())
-										.replaceAll("<killer>", killer.getName())));
-							// Le killer est une créature
-							} else {
-								Entity killer = damageSource.getSource();
-								if(type.equals(DamageTypes.ATTACK)){
-									message = EPMessages.ENTITY_DAMAGE_ENTITY_ATTACK.get();
-								} else if(type.equals(DamageTypes.EXPLOSIVE)){
-									message = EPMessages.ENTITY_DAMAGE_ENTITY_EXPLOSIVE.get();
-								} else if(type.equals(DamageTypes.FIRE)){
-									message = EPMessages.ENTITY_DAMAGE_ENTITY_FIRE.get();
-								} else if(type.equals(DamageTypes.MAGIC)){
-									message = EPMessages.ENTITY_DAMAGE_ENTITY_MAGIC.get();
-								} else {
-									message = event.getCause().toString();
-								}
-								victim.sendMessage(EChat.of(EPMessages.PREFIX.get() + message
-										.replaceAll("<player>", victim.getName())
-										.replaceAll("<monster>", killer.getType().getName())));
-							}
+							sendDeathMessage(damageSource, victim);
 						} else {
 							Optional<DamageSource> optDamage = event.getCause().first(DamageSource.class);
 							if(optDamage.isPresent()){
-								this.plugin.getEServer().broadcast("Cause : DamageSource");
+								this.plugin.getLogger().debug("Cause : DamageSource");
 								DamageSource damageSource = optDamage.get();
-								DamageType type = damageSource.getType();
-								this.plugin.getEServer().broadcast("Type : " + type);
-								if(type.equals(DamageTypes.DROWN)){
-									message = EPMessages.DAMAGE_DROWN.get();
-								} else if(type.equals(DamageTypes.EXPLOSIVE)){
-									message = EPMessages.DAMAGE_EXPLOSIVE.get();
-								} else if(type.equals(DamageTypes.FALL)){
-									message = EPMessages.DAMAGE_FALL.get();
-								} else if(type.equals(DamageTypes.FIRE)){
-									message = EPMessages.DAMAGE_FIRE.get();
-								} else if(type.equals(DamageTypes.GENERIC)){
-									message = EPMessages.DAMAGE_GENERIC.get();
-								} else if(type.equals(DamageTypes.HUNGER)){
-									message = EPMessages.DAMAGE_HUNGER.get();
-								} else if(type.equals(DamageTypes.MAGIC)){
-									message = EPMessages.DAMAGE_MAGIC.get();
-								} else if(type.equals(DamageTypes.SUFFOCATE)){
-									message = EPMessages.DAMAGE_SUFFOCATE.get();
-								} else if(type.equals(DamageTypes.VOID)){
-									message = EPMessages.DAMAGE_VOID.get();
-								} else {
-									message = event.getCause().toString();
-								}
-								victim.sendMessage(EChat.of(EPMessages.PREFIX.get() + message
-										.replaceAll("<player>", victim.getName())));
+								sendDeathMessage(damageSource, victim);
 							}
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	private void sendDeathMessage(IndirectEntityDamageSource damageSource, Player victim){
+		DamageType type = damageSource.getType();
+		String message = null;
+		// Le killer est un joueur
+		if(damageSource.getIndirectSource() instanceof Player){
+			Player killer = (Player) damageSource.getIndirectSource();
+			if(type.equals(DamageTypes.ATTACK)){
+				message = EPMessages.INDIRECT_DAMAGE_PLAYER_ATTACK.get();	
+			} else if(type.equals(DamageTypes.MAGIC)){
+				message = EPMessages.INDIRECT_DAMAGE_PLAYER_MAGIC.get();
+			} else {
+				message = damageSource.toString();
+			}
+			this.plugin.getEServer().getBroadcastChannel().send(EChat.of(EPMessages.PREFIX.get() + message
+					.replaceAll("<player>", victim.getName())
+					.replaceAll("<killer>", killer.getName())));
+		// Le killer est une créature
+		} else {
+			Entity killer = damageSource.getSource();
+			if(type.equals(DamageTypes.ATTACK)){
+				message = EPMessages.INDIRECT_DAMAGE_ENTITY_ATTACK.get();
+			} else if(type.equals(DamageTypes.MAGIC)){
+				message = EPMessages.INDIRECT_DAMAGE_ENTITY_MAGIC.get();
+			} else {
+				message = damageSource.toString();
+			}
+			victim.sendMessage(EChat.of(EPMessages.PREFIX.get() + message
+					.replaceAll("<player>", victim.getName())
+					.replaceAll("<monster>", killer.getType().getName())));
+		}
+	}
+	
+	private void sendDeathMessage(BlockDamageSource damageSource, Player victim){
+		DamageType type = damageSource.getType();
+		String message = null;
+		this.plugin.getEServer().broadcast("Type : " + type);
+		if(type.equals(DamageTypes.CONTACT)){
+			message = EPMessages.BLOCK_DAMAGE_CONTACT.get();
+		} else if(type.equals(DamageTypes.FIRE)){
+			message = EPMessages.BLOCK_DAMAGE_FIRE.get();
+		} else {
+			message = damageSource.toString();
+		}
+		victim.sendMessage(EChat.of(EPMessages.PREFIX.get() + message
+				.replaceAll("<player>", victim.getName())));
+	}
+	
+	private void sendDeathMessage(FallingBlockDamageSource damageSource, Player victim){
+		DamageType type = damageSource.getType();
+		String message = null;
+		this.plugin.getEServer().broadcast("Type : " + type);
+		if(type.equals(DamageTypes.CONTACT)){
+			message = EPMessages.FALLING_DAMAGE_CONTACT.get();
+		} else {
+			message = damageSource.toString();
+		}
+		victim.sendMessage(EChat.of(EPMessages.PREFIX.get() + message
+				.replaceAll("<player>", victim.getName())
+				.replaceAll("<entity>", damageSource.getSource().getType().getTranslation().get())));
+	}
+	
+	private void sendDeathMessage(EntityDamageSource damageSource, Player victim){
+		DamageType type = damageSource.getType();
+		String message = null;
+		this.plugin.getEServer().broadcast("Type : " + type);
+		// Le killer est un joueur
+		if(damageSource.getSource() instanceof Player){
+			Player killer = (Player) damageSource.getSource();
+			if(type.equals(DamageTypes.ATTACK)){
+				message = EPMessages.ENTITY_DAMAGE_PLAYER_ATTACK.get();
+			} else if(type.equals(DamageTypes.EXPLOSIVE)){
+				message = EPMessages.ENTITY_DAMAGE_PLAYER_EXPLOSIVE.get();
+			} else if(type.equals(DamageTypes.FIRE)){
+				message = EPMessages.ENTITY_DAMAGE_PLAYER_FIRE.get();
+			} else if(type.equals(DamageTypes.MAGIC)){
+				message = EPMessages.ENTITY_DAMAGE_PLAYER_MAGIC.get();
+			} else {
+				message = damageSource.toString();
+			}
+			this.plugin.getEServer().getBroadcastChannel().send(EChat.of(EPMessages.PREFIX.get() + message
+					.replaceAll("<player>", victim.getName())
+					.replaceAll("<killer>", killer.getName())));
+		// Le killer est une créature
+		} else {
+			Entity killer = damageSource.getSource();
+			if(type.equals(DamageTypes.ATTACK)){
+				message = EPMessages.ENTITY_DAMAGE_ENTITY_ATTACK.get();
+			} else if(type.equals(DamageTypes.EXPLOSIVE)){
+				message = EPMessages.ENTITY_DAMAGE_ENTITY_EXPLOSIVE.get();
+			} else if(type.equals(DamageTypes.FIRE)){
+				message = EPMessages.ENTITY_DAMAGE_ENTITY_FIRE.get();
+			} else if(type.equals(DamageTypes.MAGIC)){
+				message = EPMessages.ENTITY_DAMAGE_ENTITY_MAGIC.get();
+			} else {
+				message = damageSource.toString();
+			}
+			victim.sendMessage(EChat.of(EPMessages.PREFIX.get() + message
+					.replaceAll("<player>", victim.getName())
+					.replaceAll("<monster>", killer.getType().getName())));
+		}
+	}
+	
+	private void sendDeathMessage(DamageSource damageSource, Player victim){
+		DamageType type = damageSource.getType();
+		this.plugin.getEServer().broadcast("Type : " + type);
+		String message = null;
+		if(type.equals(DamageTypes.CONTACT)){
+			message = EPMessages.DAMAGE_CONTACT.get();
+		} else if(type.equals(DamageTypes.DROWN)){
+			message = EPMessages.DAMAGE_DROWN.get();
+		} else if(type.equals(DamageTypes.EXPLOSIVE)){
+			message = EPMessages.DAMAGE_EXPLOSIVE.get();
+		} else if(type.equals(DamageTypes.FALL)){
+			message = EPMessages.DAMAGE_FALL.get();
+		} else if(type.equals(DamageTypes.FIRE)){
+			message = EPMessages.DAMAGE_FIRE.get();
+		} else if(type.equals(DamageTypes.GENERIC)){
+			message = EPMessages.DAMAGE_GENERIC.get();
+		} else if(type.equals(DamageTypes.HUNGER)){
+			message = EPMessages.DAMAGE_HUNGER.get();
+		} else if(type.equals(DamageTypes.MAGIC)){
+			message = EPMessages.DAMAGE_MAGIC.get();
+		} else if(type.equals(DamageTypes.SUFFOCATE)){
+			message = EPMessages.DAMAGE_SUFFOCATE.get();
+		} else if(type.equals(DamageTypes.VOID)){
+			message = EPMessages.DAMAGE_VOID.get();
+		} else {
+			message = damageSource.toString();
+		}
+		victim.sendMessage(EChat.of(EPMessages.PREFIX.get() + message
+				.replaceAll("<player>", victim.getName())));
 	}
 }
