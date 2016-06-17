@@ -21,11 +21,11 @@ import org.spongepowered.api.plugin.Plugin;
 
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.services.pvp.PVPService;
+import fr.evercraft.everapi.services.PVPService;
 import fr.evercraft.everpvp.bossbar.ManagerBossBar;
 import fr.evercraft.everpvp.service.EPVPService;
 import fr.evercraft.everpvp.service.ETask;
-import fr.evercraft.everpvp.service.ManagerEvent;
+import fr.evercraft.everpvp.service.event.ManagerEvent;
 
 @Plugin(id = "fr.evercraft.everpvp", 
 		name = "EverPVP", 

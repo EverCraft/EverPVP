@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverPVP.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everpvp.service;
+package fr.evercraft.everpvp.service.event;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -22,8 +22,6 @@ import java.util.UUID;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.pvp.event.EStartFightEvent;
-import fr.evercraft.everapi.services.pvp.event.EStopFightEvent;
 import fr.evercraft.everpvp.EverPVP;
 
 public class ManagerEvent {
