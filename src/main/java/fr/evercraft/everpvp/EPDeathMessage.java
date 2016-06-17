@@ -148,7 +148,7 @@ public class EPDeathMessage {
 							Optional<DamageSource> optDamage = event.getCause().first(DamageSource.class);
 							if(optDamage.isPresent()){
 								this.plugin.getEServer().broadcast("Cause : DamageSource");
-								DamageSource damageSource = optEntityDamage.get();
+								/*DamageSource damageSource = optEntityDamage.get();
 								DamageType type = damageSource.getType();
 								this.plugin.getEServer().broadcast("Type : " + type);
 								if(type.equals(DamageTypes.DROWN)){
@@ -173,7 +173,7 @@ public class EPDeathMessage {
 									message = event.getCause().toString();
 								}
 								victim.sendMessage(EChat.of(EPMessages.PREFIX.get() + message
-										.replaceAll("<player>", victim.getName())));
+										.replaceAll("<player>", victim.getName())));*/
 							}
 						}
 					}
