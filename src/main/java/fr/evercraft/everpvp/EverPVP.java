@@ -71,6 +71,7 @@ public class EverPVP extends EPlugin {
 		
 		// Listerners
 		this.getGame().getEventManager().registerListeners(this, new EPListener(this));
+		this.getGame().getEventManager().registerListeners(this, new EPDeathMessage(this));
 	}
 	
 	@Override
