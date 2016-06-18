@@ -36,7 +36,7 @@ import fr.evercraft.everpvp.EverPVP;
 
 public class EPReload extends ESubCommand<EverPVP> {
 	public EPReload(final EverPVP plugin, final EPCommand command) {
-        super(plugin, command, "reloade");
+        super(plugin, command, "reload");
     }
 	
 	public boolean testPermission(final CommandSource source) {

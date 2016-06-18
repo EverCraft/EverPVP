@@ -37,7 +37,7 @@ import fr.evercraft.everpvp.EPMessage.EPMessages;
 
 public class EPUntag extends ESubCommand<EverPVP> {
 	public EPUntag(final EverPVP plugin, final EPCommand command) {
-        super(plugin, command, "untage");
+        super(plugin, command, "untag");
     }
 	
 	public boolean testPermission(final CommandSource source) {
