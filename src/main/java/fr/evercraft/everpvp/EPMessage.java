@@ -54,6 +54,9 @@ public class EPMessage extends EMessage {
 		ENTITY_DAMAGE_ENTITY_MAGIC("entityDamage.entity.thorns", "&6<player> &7a été tué en blessant &6un(e)<monster>&7."),
 		ENTITY_DAMAGE_ENTITY_FIRE("deathMessage.entity.fire", "&6<player> &7a été réduit en cendre par &6un(e) <monster>&7."),
 		
+		// EntityDamageSource Monstre
+		ENTITY_DAMAGE_SUICIDE_EXPLOSIVE("entityDamage.suicide.explosive", "&6<player> &7s'est suicidé dans une explosion."),
+		
 		// DamageSource
 		DAMAGE_CONTACT("damage.suffocate", "&6<player> &7a suffoqué dans un mur."),
 		DAMAGE_FALL("damage.fall", "&6<player> &7a fait une terrible chute."),
@@ -75,13 +78,18 @@ public class EPMessage extends EMessage {
 		BLOCK_DAMAGE_CONTACT("blockDamage.contact", "&6<player> &7s'est fait piquer à mort."),
 		BLOCK_DAMAGE_FIRE("blockDamage.fire", "&6<player> &7est mort carbonisé."),
 		
+		
 		// Indirect Damag Player
 		INDIRECT_DAMAGE_PLAYER_ATTACK("indirectDamage.player.attack", "&6<player> &7est mort d'une flèche tirée par &6<killer>&7."),
 		INDIRECT_DAMAGE_PLAYER_MAGIC("indirectDamage.player.magic", "&6<player> &7a été tué par une potion lancé par &6<killer>&7."),
 		
 		// Indirect Damage Monstre
 		INDIRECT_DAMAGE_ENTITY_ATTACK("indirectDamage.entity.attack", "&6<player> &7est mort d'une flèche tirée par un(e) &6<monster>&7."),
-		INDIRECT_DAMAGE_ENTITY_MAGIC("indirectDamage.entity.magic", "&6<player> &7a été tué par une potion lancé par un(e) &6<monster>&7.");
+		INDIRECT_DAMAGE_ENTITY_MAGIC("indirectDamage.entity.magic", "&6<player> &7a été tué par une potion lancé par un(e) &6<monster>&7."),
+		
+		// Indirect Damage Monstre
+		INDIRECT_DAMAGE_SUICIDE_ATTACK("indirectDamage.suicide.attack", "&6<player> &7s'est suicidé avec une flèche."),
+		INDIRECT_DAMAGE_SUICIDE_MAGIC("indirectDamage.suicide.magic", "&6<player> &7s'est suicidé avec une potion de dégat.");
 		
 		private final String path;
 	    private final Object french;

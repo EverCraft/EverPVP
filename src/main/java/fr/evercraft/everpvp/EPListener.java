@@ -31,7 +31,6 @@ import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
-import fr.evercraft.everapi.event.FightEvent;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
 
@@ -51,40 +50,35 @@ public class EPListener {
 	        Entity targetEntity = event.getTargetEntity();
 	        if(targetEntity instanceof Player){
 	        	Player victim = (Player) targetEntity;
-	        	if(entity instanceof Player) {
-	        		this.plugin.getService().add(entity.getUniqueId(), targetEntity.getUniqueId(), false);
-		        	this.plugin.getService().add(targetEntity.getUniqueId(), entity.getUniqueId(), true);
-		        }
 		        if(entity instanceof Projectile){
 		        	ProjectileSource projectile = ((Projectile)entity).getShooter();
 		        	if (projectile instanceof Player){
 		        		Optional<EPlayer> optShooter = this.plugin.getEServer().getEPlayer(((Player) projectile).getUniqueId());
 			        	if(optShooter.isPresent()){
 			        		EPlayer shooter = optShooter.get();
-				        	this.plugin.getService().add(shooter.getUniqueId(), victim.getUniqueId(), false);
-				        	this.plugin.getService().add(victim.getUniqueId(), shooter.getUniqueId(), true);
-		        			if(shooter.hasPermission(EPPermissions.ARROW.get()) && entity instanceof Arrow){
-					        	Double heal = (victim.get(Keys.HEALTH).get() - event.getFinalDamage());
-			        			shooter.sendMessage(EPMessages.PREFIX.get() + EPMessages.ARROW_INFORMATION.get()
-			        					.replaceAll("<player>", victim.getName())
-			        					.replaceAll("<heal>", heal.toString()));
+			        		if(!shooter.equals(victim)){
+					        	this.plugin.getService().add(shooter.getUniqueId(), victim.getUniqueId(), false);
+					        	this.plugin.getService().add(victim.getUniqueId(), shooter.getUniqueId(), true);
+			        			if(shooter.hasPermission(EPPermissions.ARROW.get()) && entity instanceof Arrow){
+						        	Double heal = (victim.get(Keys.HEALTH).get() - event.getFinalDamage());
+				        			shooter.sendMessage(EPMessages.PREFIX.get() + EPMessages.ARROW_INFORMATION.get()
+				        					.replaceAll("<player>", victim.getName())
+				        					.replaceAll("<heal>", heal.toString()));
+			        			}
 			        		}
 			        	}
 		        	}
+		        } else if(entity instanceof Player) {
+	        		this.plugin.getService().add(entity.getUniqueId(), targetEntity.getUniqueId(), false);
+		        	this.plugin.getService().add(targetEntity.getUniqueId(), entity.getUniqueId(), true);
 		        }
 	        }
 	    }
 	}
 	
 	@Listener
-	public void onPlayerFight(FightEvent.Start event) {
-		this.plugin.getEServer().broadcast("FightEvent.Start : " + event.getPlayer().getName());
-	}
-	
-	@Listener
 	public void onPlayerDisconnected(ClientConnectionEvent.Disconnect event) {
 		Player player = event.getTargetEntity();
-		this.plugin.getEServer().broadcast("Player disconnected : " + player.getName());
 		this.plugin.getService().remove(player.getUniqueId());
 	}
 	
