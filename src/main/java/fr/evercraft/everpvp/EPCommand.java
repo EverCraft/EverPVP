@@ -26,7 +26,7 @@ import fr.evercraft.everpvp.EPMessage.EPMessages;
 public class EPCommand extends EParentCommand<EverPVP> {
 	
 	public EPCommand(final EverPVP plugin) {
-        super(plugin, "everpvp", "pvp");
+        super(plugin, "everpvp", "pvpe");
     }
 	
 	@Override
