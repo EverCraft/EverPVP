@@ -23,6 +23,8 @@ import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.services.PVPService;
 import fr.evercraft.everpvp.bossbar.ManagerBossBar;
+import fr.evercraft.everpvp.command.EPReload;
+import fr.evercraft.everpvp.command.EPUntag;
 import fr.evercraft.everpvp.service.EPVPService;
 import fr.evercraft.everpvp.service.ETask;
 import fr.evercraft.everpvp.service.event.ManagerEvent;
@@ -66,12 +68,15 @@ public class EverPVP extends EPlugin {
 	
 	@Override
 	protected void onCompleteEnable() throws PluginDisableException {		
-		// Commands
-		new EPCommand(this);
-		
 		// Listerners
 		this.getGame().getEventManager().registerListeners(this, new EPListener(this));
 		this.getGame().getEventManager().registerListeners(this, new EPDeathMessage(this));
+		
+		// Commands
+		EPCommand command = new EPCommand(this);
+				
+		command.add(new EPReload(this, command));
+		command.add(new EPUntag(this, command));
 	}
 	
 	@Override

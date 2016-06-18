@@ -23,9 +23,10 @@ import com.google.common.base.Preconditions;
 import fr.evercraft.everapi.plugin.EnumPermission;
 
 public enum EPPermissions implements EnumPermission {
+	ARROW("arrow"),
+	EVERPVP("command"),
 	HELP("help"),
 	RELOAD("reload"),
-	ARROW("arrow"),
 	UNTAG("untag");
 	
 	private final static String prefix = "everpvp";

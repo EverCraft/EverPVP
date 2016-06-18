@@ -38,6 +38,8 @@ public class EPMessage extends EMessage {
 		PREFIX("prefix", "[&4Ever&6&lPVP&f] "),
 		DESCRIPTION("description", "Commandes pour EverPVP"),
 		ARROW_INFORMATION("arrow.information", "&6<player> &7est maintenant à <heal> &4❤&7."),
+		
+		UNTAG_DESCRIPTION("untag.description", "&7Le joueur &6<player> &7n'est plus en combat."),
 		UNTAG_MESSAGE("untag.message", "&7Le joueur &6<player> &7n'est plus en combat."),
 		UNTAG_ERROR("untag.error", "&cErreur : Le joueur <player> n'est pas en combat."),
 		UNTAGALL_MESSAGE("untagall.message", "&7Tous les joueurs ne sont plus en combat"),

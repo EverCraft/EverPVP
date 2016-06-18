@@ -82,8 +82,7 @@ public class EPDeathMessage {
 	
 	private void sendDeathMessage(IndirectEntityDamageSource damageSource, Player victim){
 		DamageType type = damageSource.getType();
-		this.plugin.getLogger().debug("Cause : IndirectEntityDamageSource");
-		this.plugin.getLogger().debug("Type : " + type);
+		this.plugin.getLogger().debug("Cause : IndirectEntityDamageSource; Type : " + type);
 		String message = null;
 		// Le killer est un joueur
 		if(damageSource.getIndirectSource() instanceof Player){
@@ -128,8 +127,7 @@ public class EPDeathMessage {
 	
 	private void sendDeathMessage(BlockDamageSource damageSource, Player victim){
 		DamageType type = damageSource.getType();
-		this.plugin.getLogger().debug("Cause : BlockDamageSource");
-		this.plugin.getLogger().debug("Type : " + type);
+		this.plugin.getLogger().debug("Cause : BlockDamageSource; Type : " + type);
 		String message = null;
 		this.plugin.getEServer().broadcast("Type : " + type);
 		if(type.equals(DamageTypes.CONTACT)){
@@ -145,8 +143,7 @@ public class EPDeathMessage {
 	
 	private void sendDeathMessage(FallingBlockDamageSource damageSource, Player victim){
 		DamageType type = damageSource.getType();
-		this.plugin.getLogger().debug("Cause : FallingBlockDamageSource");
-		this.plugin.getLogger().debug("Type : " + type);
+		this.plugin.getLogger().debug("Cause : FallingBlockDamageSource; Type : " + type);
 		String message = null;
 		if(type.equals(DamageTypes.CONTACT)){
 			message = EPMessages.FALLING_DAMAGE_CONTACT.get();
@@ -160,8 +157,7 @@ public class EPDeathMessage {
 	
 	private void sendDeathMessage(EntityDamageSource damageSource, Player victim){
 		DamageType type = damageSource.getType();
-		this.plugin.getLogger().debug("Cause : EntityDamageSource");
-		this.plugin.getLogger().debug("Type : " + type);
+		this.plugin.getLogger().debug("Cause : EntityDamageSource; Type : " + type);
 		String message = null;
 		// Le killer est un joueur
 		if(damageSource.getSource() instanceof Player){
@@ -213,8 +209,7 @@ public class EPDeathMessage {
 	
 	private void sendDeathMessage(DamageSource damageSource, Player victim){
 		DamageType type = damageSource.getType();
-		this.plugin.getLogger().debug("Cause : DamageSource");
-		this.plugin.getLogger().debug("Type : " + type);
+		this.plugin.getLogger().debug("Cause : DamageSource; Type : " + type);
 		String message = null;
 		if(type.equals(DamageTypes.CONTACT)){
 			message = EPMessages.DAMAGE_CONTACT.get();
