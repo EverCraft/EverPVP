@@ -36,7 +36,7 @@ public class EPMessage extends EMessage {
 
 	public enum EPMessages implements EnumMessage {
 		PREFIX("prefix", "[&4Ever&6&lPVP&f] "),
-		DESCRIPTION("description", ""),
+		DESCRIPTION("description", "Commandes pour EverPVP"),
 		ARROW_INFORMATION("arrow.information", "&6<player> &7est maintenant à <heal> &4❤&7."),
 		UNTAG_MESSAGE("untag.message", "&7Le joueur &6<player> &7n'est plus en combat."),
 		UNTAG_ERROR("untag.error", "&cErreur : Le joueur <player> n'est pas en combat."),
@@ -48,9 +48,6 @@ public class EPMessage extends EMessage {
 		ENTITY_DAMAGE_PLAYER_FIRE("entityDamage.player.fire", "&6<player> &7a été réduit en cendre par &6<killer>&7."),
 		ENTITY_DAMAGE_PLAYER_MAGIC("entityDamage.player.thorns", "&6<player> &7a été tué en blessant &6<killer>&7."),
 		
-		ENTITY_DAMAGE_PLAYER_MAGIC2("entityDamage.player.magic", "&6<player> &7a été tué par une potion de dégat lancé par &6<killer>&7."),
-		ENTITY_DAMAGE_PLAYER_PROJECTILE("entityDamage.player.projectile", "&6<player> &7est mort d'une fléche tiré par &6<killer>&7."),
-		
 		// EntityDamageSource Monstre
 		ENTITY_DAMAGE_ENTITY_ATTACK("entityDamage.entity.attack", "&6<player> &7s'est fait tuer par &6un(e) <monster>&7."),
 		ENTITY_DAMAGE_ENTITY_EXPLOSIVE("entityDamage.entity.explosive", "&6<player> &7s'est fait tuer dans l'explosion d'&6un(e) <monster>&7."),
@@ -58,6 +55,7 @@ public class EPMessage extends EMessage {
 		ENTITY_DAMAGE_ENTITY_FIRE("deathMessage.entity.fire", "&6<player> &7a été réduit en cendre par &6un(e) <monster>&7."),
 		
 		// DamageSource
+		DAMAGE_CONTACT("damage.suffocate", "&6<player> &7a suffoqué dans un mur."),
 		DAMAGE_FALL("damage.fall", "&6<player> &7a fait une terrible chute."),
 		DAMAGE_DROWN("damage.drown", "&6<player> &7s'est noyé."),
 		DAMAGE_EXPLOSIVE("damage.explosive", "&6<player> &7est mort dans une explosion."),
@@ -75,7 +73,7 @@ public class EPMessage extends EMessage {
 		
 		//BlockDamage
 		BLOCK_DAMAGE_CONTACT("blockDamage.contact", "&6<player> &7s'est fait piquer à mort."),
-		BLOCK_DAMAGE_FIRE("blockDamage.fire", "&6<player> &7a essayé de nager dans la lave."),
+		BLOCK_DAMAGE_FIRE("blockDamage.fire", "&6<player> &7est mort carbonisé."),
 		
 		// Indirect Damag Player
 		INDIRECT_DAMAGE_PLAYER_ATTACK("indirectDamage.player.attack", "&6<player> &7est mort d'une flèche tirée par &6<killer>&7."),
