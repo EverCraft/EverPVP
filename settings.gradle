@@ -1,4 +1,0 @@
-rootProject.name = "EverPVP"
-include ':EverAPI'
-
-project(':EverAPI').projectDir = new File( '../EverAPI' )
