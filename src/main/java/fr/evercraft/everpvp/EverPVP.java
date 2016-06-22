@@ -56,6 +56,9 @@ public class EverPVP extends EPlugin {
 		this.messages = new EPMessage(this);
 		this.event = new ManagerEvent(this);
 	}
+	/*
+	 * Test
+	 */
 	
 	@Override
 	protected void onEnable() throws PluginDisableException {
