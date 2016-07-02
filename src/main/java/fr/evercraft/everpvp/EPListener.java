@@ -96,9 +96,9 @@ public class EPListener {
 			this.plugin.getArmorStand().spawnArmorStand(
 					new Location<World>(
 							victim.getWorld(), 
-							location.getX(), 
-							location.getY() - 1.25, 
-							location.getZ()), 
+							location.getBlockX(), 
+							location.getBlockY() - 1.25, 
+							location.getBlockZ()), 
 							victim);
 		}
 	}

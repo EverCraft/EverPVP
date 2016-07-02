@@ -95,6 +95,11 @@ public class EverPVP extends EPlugin {
 	
 	@Override
 	protected void onDisable() {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	protected void onStopServer() {
 		this.armorStand.reload();
 	}
 	
