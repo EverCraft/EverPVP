@@ -44,6 +44,8 @@ public class EPMessage extends EMessage {
 		UNTAG_ERROR("untag.error", "&cErreur : Le joueur <player> n'est pas en combat."),
 		UNTAGALL_MESSAGE("untagall.message", "&7Tous les joueurs ne sont plus en combat"),
 		
+		ARMORSTAND_NAME("armorStand.name", "&7Cadavre de &6<player>"),
+		
 		// EntityDamageSource Player
 		ENTITY_DAMAGE_PLAYER_ATTACK("entityDamage.player.Attack", "&6<player> &7s'est fait tuer par &6<killer>&7 avec <item>."),
 		ENTITY_DAMAGE_PLAYER_EXPLOSIVE("entityDamage.player.explosive", "&6<player> &7est mort dans une explosion déclenchée par &6<killer>&7."),

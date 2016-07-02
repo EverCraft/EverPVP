@@ -25,6 +25,8 @@ import fr.evercraft.everapi.services.PVPService;
 import fr.evercraft.everpvp.bossbar.ManagerBossBar;
 import fr.evercraft.everpvp.command.EPReload;
 import fr.evercraft.everpvp.command.EPUntag;
+import fr.evercraft.everpvp.death.EPArmorStand;
+import fr.evercraft.everpvp.death.EPDeathMessage;
 import fr.evercraft.everpvp.service.EPVPService;
 import fr.evercraft.everpvp.service.ETask;
 import fr.evercraft.everpvp.service.event.ManagerEvent;
@@ -43,6 +45,7 @@ public class EverPVP extends EPlugin {
 	private EPConfig configs;
 	private EPMessage messages;
 	private EPVPService service;
+	private EPArmorStand armorStand;
 	
 	private ETask task;
 	
@@ -55,6 +58,7 @@ public class EverPVP extends EPlugin {
 		this.configs = new EPConfig(this);
 		this.messages = new EPMessage(this);
 		this.event = new ManagerEvent(this);
+		this.armorStand = new EPArmorStand(this);
 	}
 	/*
 	 * Test
@@ -117,5 +121,9 @@ public class EverPVP extends EPlugin {
 	
 	public ETask getTask(){
 		return this.task;
+	}
+	
+	public EPArmorStand getArmorStand(){
+		return this.armorStand;
 	}
 }

@@ -30,7 +30,8 @@ import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
-
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
 
@@ -43,7 +44,7 @@ public class EPListener {
 	}
 	
 	@Listener
-	public void onEntityDeath(DamageEntityEvent event) {
+	public void onEntityDamage(DamageEntityEvent event) {
 		Optional<EntityDamageSource> optDamageSource = event.getCause().first(EntityDamageSource.class);
 	    if(optDamageSource.isPresent() && !event.willCauseDeath()) {
 	    	Entity entity = optDamageSource.get().getSource();
@@ -91,6 +92,14 @@ public class EPListener {
 				// Fin du FightEvent
 				this.plugin.getService().remove(victim.getUniqueId());
 			}
+			Location<World> location = victim.getLocation();
+			this.plugin.getArmorStand().spawnArmorStand(
+					new Location<World>(
+							victim.getWorld(), 
+							location.getX(), 
+							location.getY() - 1.25, 
+							location.getZ()), 
+							victim);
 		}
 	}
 }
