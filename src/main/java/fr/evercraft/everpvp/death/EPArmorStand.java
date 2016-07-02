@@ -1,5 +1,23 @@
+/*
+ * This file is part of EverPVP.
+ *
+ * EverPVP is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * EverPVP is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with EverPVP.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package fr.evercraft.everpvp.death;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.data.key.Keys;
@@ -11,6 +29,8 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
 import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.util.rotation.Rotations;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -19,16 +39,14 @@ import org.spongepowered.api.world.extent.Extent;
 import com.flowpowered.math.vector.Vector3d;
 
 import fr.evercraft.everapi.java.UtilsInteger;
-import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.sponge.UtilsItemStack;
 import fr.evercraft.everpvp.EverPVP;
-import fr.evercraft.everpvp.EPMessage.EPMessages;
 
 public class EPArmorStand {
-	private EverPVP plugin;
+	private List<Entity> entities = new ArrayList<Entity>();
 	
 	public EPArmorStand(EverPVP plugin) {
-		this.plugin = plugin;
+		this.reload();
 	}
 
 	public void spawnArmorStand(Location<World> location, Player victim){
@@ -42,10 +60,6 @@ public class EPArmorStand {
 	        armorStand.offer(Keys.ARMOR_STAND_HAS_GRAVITY, false);
 	        armorStand.offer(Keys.ARMOR_STAND_MARKER, true);
 	        armorStand.offer(Keys.ARMOR_STAND_IS_SMALL, false);
-	        armorStand.offer(Keys.DISPLAY_NAME, EChat.of(
-	        		EPMessages.ARMORSTAND_NAME.get()
-	        			.replaceAll("<player>", victim.getName())));
-	        armorStand.offer(Keys.CUSTOM_NAME_VISIBLE, true);
 	        // Position ArmorSTAND
 	        armorStand.offer(Keys.HEAD_ROTATION, new Vector3d(310, 0, UtilsInteger.range(-45, 45)));
 	        armorStand.offer(Keys.LEFT_ARM_ROTATION, new Vector3d(UtilsInteger.range(-45, 45), 0, 270));
@@ -57,19 +71,26 @@ public class EPArmorStand {
 	        // Equipement 
 	        armorStand.setHelmet(UtilsItemStack.createPlayerHead(victim.getProfile()));
 	        if(victim.getChestplate().isPresent()){
-	        	this.plugin.getEServer().broadcast("Test getChestplate");
 	        	armorStand.setChestplate(victim.getChestplate().get());
 	        }
 	        if(victim.getItemInHand(HandTypes.MAIN_HAND).isPresent()){
 	        	armorStand.setItemInHand(HandTypes.MAIN_HAND, victim.getItemInHand(HandTypes.MAIN_HAND).get());
-	        	this.plugin.getEServer().broadcast("Test setItemInHand");
 	        }
+	        armorStand.setItemInHand(HandTypes.OFF_HAND, ItemStack.of(ItemTypes.CHEST, 1));
 	        extent.spawnEntity(armorStand, 
 	        		Cause.source(EntitySpawnCause.builder()
 	        				.entity(armorStand)
 	        				.type(SpawnTypes.PLUGIN)
 	        				.build())
 	        			.build());
+	        entities.add(armorStand);
 	    }
+	}
+	
+	public void reload(){
+		for(Entity entity : entities){
+			entity.remove();
+		}
+		entities.clear();
 	}
 }

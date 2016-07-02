@@ -60,9 +60,6 @@ public class EverPVP extends EPlugin {
 		this.event = new ManagerEvent(this);
 		this.armorStand = new EPArmorStand(this);
 	}
-	/*
-	 * Test
-	 */
 	
 	@Override
 	protected void onEnable() throws PluginDisableException {
@@ -93,10 +90,12 @@ public class EverPVP extends EPlugin {
 		this.bossbar.reload();
 		this.service.reload();
 		this.task.reload();
+		this.armorStand.reload();
 	}
 	
 	@Override
 	protected void onDisable() {
+		this.armorStand.reload();
 	}
 	
 	public EPConfig getConfigs(){
