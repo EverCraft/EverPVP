@@ -58,7 +58,7 @@ public class EPArmorStand {
 	        armorStand.offer(Keys.ARMOR_STAND_HAS_ARMS, true);
 	        armorStand.offer(Keys.ARMOR_STAND_HAS_BASE_PLATE, false);
 	        armorStand.offer(Keys.ARMOR_STAND_HAS_GRAVITY, false);
-	        armorStand.offer(Keys.ARMOR_STAND_MARKER, true);
+	        armorStand.offer(Keys.ARMOR_STAND_MARKER, false);
 	        armorStand.offer(Keys.ARMOR_STAND_IS_SMALL, false);
 	        // Position ArmorSTAND
 	        armorStand.offer(Keys.HEAD_ROTATION, new Vector3d(310, 0, UtilsInteger.range(-45, 45)));
@@ -72,6 +72,8 @@ public class EPArmorStand {
 	        armorStand.setHelmet(UtilsItemStack.createPlayerHead(victim.getProfile()));
 	        if(victim.getChestplate().isPresent()){
 	        	armorStand.setChestplate(victim.getChestplate().get());
+	        } else {
+	        	//armorStand.setChestplate(ItemStack.of(ItemTypes.LEATHER_CHESTPLATE, 1));
 	        }
 	        if(victim.getItemInHand(HandTypes.MAIN_HAND).isPresent()){
 	        	armorStand.setItemInHand(HandTypes.MAIN_HAND, victim.getItemInHand(HandTypes.MAIN_HAND).get());

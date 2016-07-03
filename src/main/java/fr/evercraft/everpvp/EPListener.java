@@ -30,8 +30,9 @@ import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
+
+import com.flowpowered.math.vector.Vector3d;
+
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
 
@@ -92,14 +93,8 @@ public class EPListener {
 				// Fin du FightEvent
 				this.plugin.getService().remove(victim.getUniqueId());
 			}
-			Location<World> location = victim.getLocation();
-			this.plugin.getArmorStand().spawnArmorStand(
-					new Location<World>(
-							victim.getWorld(), 
-							location.getBlockX(), 
-							location.getBlockY() - 1.25, 
-							location.getBlockZ()), 
-							victim);
+			Vector3d position = victim.getLocation().getBlockPosition().toDouble();
+			this.plugin.getArmorStand().spawnArmorStand(victim.getWorld().getLocation(position.add(0.5, -1.24, 0.5)), victim);
 		}
 	}
 }
