@@ -30,9 +30,6 @@ import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
-
-import com.flowpowered.math.vector.Vector3d;
-
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
 
@@ -81,7 +78,10 @@ public class EPListener {
 	@Listener
 	public void onPlayerDisconnected(ClientConnectionEvent.Disconnect event) {
 		Player player = event.getTargetEntity();
-		this.plugin.getService().remove(player.getUniqueId());
+		// Le joueur déconnecte en étant en combat
+		if(this.plugin.getService().isFight(player.getUniqueId())){
+			this.plugin.getService().remove(player.getUniqueId());
+		}
 	}
 	
 	@Listener
@@ -93,8 +93,7 @@ public class EPListener {
 				// Fin du FightEvent
 				this.plugin.getService().remove(victim.getUniqueId());
 			}
-			Vector3d position = victim.getLocation().getBlockPosition().toDouble();
-			this.plugin.getArmorStand().spawnArmorStand(victim.getWorld().getLocation(position.add(0.5, -1.24, 0.5)), victim);
+			this.plugin.getArmorStand().spawnArmorStand(victim);
 		}
 	}
 }

@@ -49,8 +49,10 @@ public class EPArmorStand {
 		this.reload();
 	}
 
-	public void spawnArmorStand(Location<World> location, Player victim){
-	    Extent extent = location.getExtent();
+	public void spawnArmorStand(Player victim){
+		Vector3d position = victim.getLocation().getBlockPosition().toDouble();
+		Location<World> location = victim.getWorld().getLocation(position.add(0.5, -1.24, 0.5));
+		Extent extent = location.getExtent();
 	    Optional<Entity> optional = extent.createEntity(EntityTypes.ARMOR_STAND, location.getPosition());
 	    if (optional.isPresent()) {
 	        ArmorStand armorStand = (ArmorStand) optional.get();
