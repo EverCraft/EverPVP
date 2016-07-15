@@ -50,6 +50,11 @@ public class EPDeathMessage {
 	@Listener
 	public void onPlayerDeath(DestructEntityEvent.Death event) {
 		if(event.getTargetEntity() instanceof Player){
+			this.plugin.getEServer().broadcast("" + event.getTargetEntity());
+			this.plugin.getEServer().broadcast("Formatter : " + event.getFormatter());
+			this.plugin.getEServer().broadcast("OriginalMessage : " + event.getOriginalMessage());
+			this.plugin.getEServer().broadcast("Message : " + event.getMessage());
+			this.plugin.getEServer().broadcast("Cause : " + event.getCause());
 			event.clearMessage();
 			Optional<EPlayer> optVictim = this.plugin.getEServer().getEPlayer((Player)event.getTargetEntity());
 			if(optVictim.isPresent()){
@@ -66,19 +71,16 @@ public class EPDeathMessage {
 					} else {
 						Optional<FallingBlockDamageSource> optFallingBlock = event.getCause().first(FallingBlockDamageSource.class);
 						if(optFallingBlock.isPresent()){
-							this.plugin.getLogger().debug("Cause : FallingBlockDamageSource");
 							FallingBlockDamageSource damageSource = optFallingBlock.get();
 							sendDeathMessage(damageSource, victim);
 						} else {
 							Optional<EntityDamageSource> optEntityDamage = event.getCause().first(EntityDamageSource.class);
 							if(optEntityDamage.isPresent()){
-								this.plugin.getLogger().debug("Cause : EntityDamageSource");
 								EntityDamageSource damageSource = optEntityDamage.get();
 								sendDeathMessage(damageSource, victim);
 							} else {
 								Optional<DamageSource> optDamage = event.getCause().first(DamageSource.class);
 								if(optDamage.isPresent()){
-									this.plugin.getLogger().debug("Cause : DamageSource");
 									DamageSource damageSource = optDamage.get();
 									sendDeathMessage(damageSource, victim);
 								}
@@ -266,12 +268,14 @@ public class EPDeathMessage {
 	private Text getButtonKiller(final EPlayer killer){
 		return EChat.of(EPMessages.KILLER_NAME.get().replaceAll("<killer>", killer.getDisplayName())).toBuilder()
 				.onHover(TextActions.showText(killer.replaceVariable(EPMessages.KILLER_DESCRIPTION_HOVER.get())))
+				.onClick(TextActions.suggestCommand("/msg " + killer.getDisplayName()))
 				.build();
 	}
 	
 	private Text getButtonVictim(final EPlayer victim){
 		return EChat.of(EPMessages.VICTIM_NAME.get().replaceAll("<victim>", victim.getDisplayName())).toBuilder()
 				.onHover(TextActions.showText(victim.replaceVariable(EPMessages.VICTIM_DESCRIPTION_HOVER.get())))
+				.onClick(TextActions.suggestCommand("/msg " + victim.getDisplayName()))
 				.build();
 	}
 	

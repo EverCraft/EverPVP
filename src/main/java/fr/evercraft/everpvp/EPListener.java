@@ -30,17 +30,24 @@ import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
+
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
 
 
 public class EPListener {
 	private EverPVP plugin;
+	private boolean disconnectedInFight;
 	
 	public EPListener(EverPVP plugin) {
 		this.plugin = plugin;
+		reload();
 	}
 	
+	private void reload() {
+		disconnectedInFight = this.plugin.getConfigs().get("disconnected-in-fight").getBoolean();
+	}
+
 	@Listener
 	public void onEntityDamage(DamageEntityEvent event) {
 		Optional<EntityDamageSource> optDamageSource = event.getCause().first(EntityDamageSource.class);
@@ -77,10 +84,29 @@ public class EPListener {
 	
 	@Listener
 	public void onPlayerDisconnected(ClientConnectionEvent.Disconnect event) {
-		Player player = event.getTargetEntity();
-		// Le joueur déconnecte en étant en combat
-		if(this.plugin.getService().isFight(player.getUniqueId())){
-			this.plugin.getService().remove(player.getUniqueId());
+		if(event.getTargetEntity() instanceof Player){
+			Player player = event.getTargetEntity(); 
+			Optional<EPlayer> optEPlayer = this.plugin.getEServer().getEPlayer(player);
+			if(optEPlayer.isPresent()){
+				EPlayer ePlayer = optEPlayer.get();
+				// Le joueur déconnecte en étant en combat
+				if(this.plugin.getService().isFight(player.getUniqueId())){
+					this.plugin.getService().remove(player.getUniqueId());
+					if(this.disconnectedInFight){
+						ePlayer.setHealth(0);
+						/*
+						this.plugin.getGame().getEventManager().post(
+							SpongeEventFactory.createDestructEntityEventDeath(
+									Cause.of(NamedCause.source(player),
+											originalChannel,
+											channel,
+											formatter,
+											targetEntity,
+											messageCancelled)
+											*/
+					}
+				}
+			}
 		}
 	}
 	
