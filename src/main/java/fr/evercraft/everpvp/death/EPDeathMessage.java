@@ -50,11 +50,6 @@ public class EPDeathMessage {
 	@Listener
 	public void onPlayerDeath(DestructEntityEvent.Death event) {
 		if(event.getTargetEntity() instanceof Player){
-			this.plugin.getEServer().broadcast("" + event.getTargetEntity());
-			this.plugin.getEServer().broadcast("Formatter : " + event.getFormatter());
-			this.plugin.getEServer().broadcast("OriginalMessage : " + event.getOriginalMessage());
-			this.plugin.getEServer().broadcast("Message : " + event.getMessage());
-			this.plugin.getEServer().broadcast("Cause : " + event.getCause());
 			event.clearMessage();
 			Optional<EPlayer> optVictim = this.plugin.getEServer().getEPlayer((Player)event.getTargetEntity());
 			if(optVictim.isPresent()){
