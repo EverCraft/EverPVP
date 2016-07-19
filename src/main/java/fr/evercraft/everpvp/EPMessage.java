@@ -87,6 +87,7 @@ public class EPMessage extends EMessage {
 		DAMAGE_HUNGER("damage.hunger", "&6<victim> &7est mort de faim."),
 		DAMAGE_LIGHTNING("damage.lightning", "&6<victim> &7est mort foudroyé."),
 		DAMAGE_MAGIC("damage.magic", "&6<victim> &7s'est fait tué par une potion."),
+		DAMAGE_MAGMA("damage.magma", "&6<victim> &7a découvert que le sol était en lave."),
 		DAMAGE_PROJECTILE("damage.projectile", "&6<victim> &7s'est fait tué par une flèche."),
 		DAMAGE_SUFFOCATE("damage.suffocate", "&6<victim> &7a suffoqué dans un mur."),
 		DAMAGE_VOID("damage.void", "&6<victim> &7est tombé dans le néant."),
