@@ -30,7 +30,6 @@ import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
-
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
 
@@ -84,27 +83,14 @@ public class EPListener {
 	
 	@Listener
 	public void onPlayerDisconnected(ClientConnectionEvent.Disconnect event) {
-		if(event.getTargetEntity() instanceof Player){
-			Player player = event.getTargetEntity(); 
-			Optional<EPlayer> optEPlayer = this.plugin.getEServer().getEPlayer(player);
-			if(optEPlayer.isPresent()){
-				EPlayer ePlayer = optEPlayer.get();
-				// Le joueur déconnecte en étant en combat
-				if(this.plugin.getService().isFight(player.getUniqueId())){
-					this.plugin.getService().remove(player.getUniqueId());
-					if(this.disconnectedInFight){
-						ePlayer.setHealth(0);
-						/*
-						this.plugin.getGame().getEventManager().post(
-							SpongeEventFactory.createDestructEntityEventDeath(
-									Cause.of(NamedCause.source(player),
-											originalChannel,
-											channel,
-											formatter,
-											targetEntity,
-											messageCancelled)
-											*/
-					}
+		Optional<EPlayer> optEPlayer = this.plugin.getEServer().getEPlayer(event.getTargetEntity());
+		if(optEPlayer.isPresent()){
+			EPlayer player = optEPlayer.get();
+			// Le joueur déconnecte en étant en combat
+			if(this.plugin.getService().isFight(player.getUniqueId())){
+				this.plugin.getService().remove(player.getUniqueId());
+				if(getDisconnect()){
+					// Le joueur vient de déconnecter en combat
 				}
 			}
 		}
@@ -121,5 +107,9 @@ public class EPListener {
 			}
 			this.plugin.getArmorStand().spawnArmorStand(victim);
 		}
+	}
+	
+	private boolean getDisconnect(){
+		return this.disconnectedInFight;
 	}
 }

@@ -50,6 +50,7 @@ public class EPDeathMessage {
 	@Listener
 	public void onPlayerDeath(DestructEntityEvent.Death event) {
 		if(event.getTargetEntity() instanceof Player){
+			this.plugin.getEServer().broadcast("" + event.getCause());
 			// event.clearMessage();
 			Optional<EPlayer> optVictim = this.plugin.getEServer().getEPlayer((Player)event.getTargetEntity());
 			if(optVictim.isPresent()){
@@ -164,7 +165,11 @@ public class EPDeathMessage {
 				EPlayer killer = optKiller.get();
 				if(!victim.equals(killer)){
 					if(type.equals(DamageTypes.ATTACK)){
-						message = EPMessages.ENTITY_DAMAGE_PLAYER_ATTACK.get();
+						if(killer.getItemInMainHand().isPresent()){
+							message = EPMessages.ENTITY_DAMAGE_PLAYER_ATTACK.get();
+						} else {
+							message = EPMessages.ENTITY_DAMAGE_PLAYER_ATTACK_NO_ITEM.get();
+						}
 					} else if(type.equals(DamageTypes.EXPLOSIVE)){
 						message = EPMessages.ENTITY_DAMAGE_PLAYER_EXPLOSIVE.get();
 					} else if(type.equals(DamageTypes.FIRE)){

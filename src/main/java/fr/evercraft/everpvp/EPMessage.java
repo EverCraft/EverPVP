@@ -64,6 +64,7 @@ public class EPMessage extends EMessage {
 		// EntityDamageSource Player
 		ENTITY_DAMAGE_PLAYER_DISCONNECT("entityDamage.player.disconnect", "&6<victim> &7s'est fait tuer en déconnectant en combat."),
 		ENTITY_DAMAGE_PLAYER_ATTACK("entityDamage.player.attack", "&6<victim> &7s'est fait tuer par &6<killer>&7 avec un(e) &b[<item>&b]&7."),
+		ENTITY_DAMAGE_PLAYER_ATTACK_NO_ITEM("entityDamage.player.attackNoItem", "&6<victim> &7s'est fait tuer par &6<killer>&7."),
 		ENTITY_DAMAGE_PLAYER_EXPLOSIVE("entityDamage.player.explosive", "&6<victim> &7est mort dans une explosion déclenchée par &6<killer>&7."),
 		ENTITY_DAMAGE_PLAYER_FIRE("entityDamage.player.fire", "&6<victim> &7a été réduit en cendre par &6<killer>&7."),
 		ENTITY_DAMAGE_PLAYER_MAGIC("entityDamage.player.thorns", "&6<victim> &7a été tué en blessant &6<killer>&7."),
