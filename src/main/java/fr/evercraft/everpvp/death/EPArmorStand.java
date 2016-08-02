@@ -18,7 +18,6 @@ package fr.evercraft.everpvp.death;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.HandTypes;
@@ -53,9 +52,9 @@ public class EPArmorStand {
 		Vector3d position = victim.getLocation().getBlockPosition().toDouble();
 		Location<World> location = victim.getWorld().getLocation(position.add(0.5, -1.24, 0.5));
 		Extent extent = location.getExtent();
-	    Optional<Entity> optional = extent.createEntity(EntityTypes.ARMOR_STAND, location.getPosition());
-	    if (optional.isPresent()) {
-	        ArmorStand armorStand = (ArmorStand) optional.get();
+	    Entity entity = extent.createEntity(EntityTypes.ARMOR_STAND, location.getPosition());
+	    if (entity instanceof ArmorStand) {
+	        ArmorStand armorStand = (ArmorStand) entity;
 	        // General
 	        armorStand.offer(Keys.ARMOR_STAND_HAS_ARMS, true);
 	        armorStand.offer(Keys.ARMOR_STAND_HAS_BASE_PLATE, false);
