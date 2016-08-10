@@ -99,8 +99,7 @@ public class EPMessage extends EMessage {
 		//BlockDamage
 		BLOCK_DAMAGE_CONTACT("blockDamage.contact", "&6<victim> &7s'est fait piquer à mort."),
 		BLOCK_DAMAGE_FIRE("blockDamage.fire", "&6<victim> &7est mort carbonisé."),
-		
-		
+			
 		// Indirect Damag Player
 		INDIRECT_DAMAGE_PLAYER_ATTACK("indirectDamage.player.attack", "&6<victim> &7est mort d'une flèche tirée par &6<killer>&7 avec un(e) &b[<item>&b]&7."),
 		INDIRECT_DAMAGE_PLAYER_MAGIC("indirectDamage.player.magic", "&6<victim> &7a été tué par une potion lancé par &6<killer>&7."),
