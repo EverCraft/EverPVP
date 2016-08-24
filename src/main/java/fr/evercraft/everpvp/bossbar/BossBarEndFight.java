@@ -59,9 +59,9 @@ public class BossBarEndFight {
 		
 	public void reload() {
 		// Stop
-		for(Entry<UUID, Long> player_uuid : this.players.entrySet()) {
+		for (Entry<UUID, Long> player_uuid : this.players.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid.getKey());
-			if(player.isPresent()) {
+			if (player.isPresent()) {
 				player.get().removeBossBar(ManagerBossBar.IDENTIFIER);
 			}
 		}
@@ -69,7 +69,7 @@ public class BossBarEndFight {
 		
 		// Start
 		this.priority = PriorityService.DEFAULT;
-		if(this.plugin.getEverAPI().getManagerService().getPriority().isPresent()) {
+		if (this.plugin.getEverAPI().getManagerService().getPriority().isPresent()) {
 			this.priority = this.plugin.getEverAPI().getManagerService().getPriority().get().getBossBar(ManagerBossBar.IDENTIFIER);
 		}
 		
@@ -87,7 +87,7 @@ public class BossBarEndFight {
 		Text text = player.replaceVariable(this.message);
 		
 		Optional<ServerBossBar> bossbar = player.getBossBar(ManagerBossBar.IDENTIFIER);
-		if(bossbar.isPresent()) {
+		if (bossbar.isPresent()) {
 			bossbar.get().setName(text);
 			bossbar.get().setPercent(this.percent);
 			bossbar.get().setColor(this.color);
@@ -155,8 +155,8 @@ public class BossBarEndFight {
 	public void updateAsync() {
 		final List<UUID> players = new ArrayList<UUID>();
 		long time = System.currentTimeMillis();
-		for(Entry<UUID, Long> player : this.players.entrySet()) {
-			if(player.getValue() <= time) {
+		for (Entry<UUID, Long> player : this.players.entrySet()) {
+			if (player.getValue() <= time) {
 				players.add(player.getKey());
 			}
 		}
@@ -170,9 +170,9 @@ public class BossBarEndFight {
 	 * Mise à jour Sync
 	 */
 	private void updateSync(final List<UUID> players) {
-		for(UUID player_uuid : players) {
+		for (UUID player_uuid : players) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);
-			if(player.isPresent()) {
+			if (player.isPresent()) {
 				this.remove(player.get());
 			}
 		}

@@ -71,12 +71,12 @@ public class EPArmorStand {
 	        armorStand.offer(Keys.ROTATION, Rotations.TOP);
 	        // Equipement 
 	        armorStand.setHelmet(UtilsItemStack.createPlayerHead(victim.getProfile()));
-	        if(victim.getChestplate().isPresent()){
+	        if (victim.getChestplate().isPresent()){
 	        	armorStand.setChestplate(victim.getChestplate().get());
 	        } else {
 	        	//armorStand.setChestplate(ItemStack.of(ItemTypes.LEATHER_CHESTPLATE, 1));
 	        }
-	        if(victim.getItemInHand(HandTypes.MAIN_HAND).isPresent()){
+	        if (victim.getItemInHand(HandTypes.MAIN_HAND).isPresent()){
 	        	armorStand.setItemInHand(HandTypes.MAIN_HAND, victim.getItemInHand(HandTypes.MAIN_HAND).get());
 	        }
 	        armorStand.setItemInHand(HandTypes.OFF_HAND, ItemStack.of(ItemTypes.CHEST, 1));
@@ -91,7 +91,7 @@ public class EPArmorStand {
 	}
 	
 	public void reload(){
-		for(Entity entity : entities){
+		for (Entity entity : entities){
 			entity.remove();
 		}
 		entities.clear();

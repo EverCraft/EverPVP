@@ -37,10 +37,10 @@ public class ETask {
 	 */
 	public void reload() {
 		// Si il y a pas de scheduler et qu'il y a des joueurs
-		if(this.task == null && (this.plugin.getService().update() || this.plugin.getManagerBossBar().getEndFight().update())) {
+		if (this.task == null && (this.plugin.getService().update() || this.plugin.getManagerBossBar().getEndFight().update())) {
 			this.taskStart();
 		// Si il y a un scheduler et qu'il n'y a pas de joueur
-		} else if(this.task != null && !(this.plugin.getService().update() || this.plugin.getManagerBossBar().getEndFight().update())) {
+		} else if (this.task != null && !(this.plugin.getService().update() || this.plugin.getManagerBossBar().getEndFight().update())) {
 			this.taskStop();
 		}
 	}
@@ -49,7 +49,7 @@ public class ETask {
 	 * Active le scheduler
 	 */
 	private boolean taskStart() {
-		if(this.task == null) {
+		if (this.task == null) {
 			this.task = this.plugin.getGame().getScheduler().createTaskBuilder()
 					.execute(() -> updateAsync())
 					.delay(1, TimeUnit.SECONDS)
@@ -65,7 +65,7 @@ public class ETask {
 	 * Désactive le scheduler
 	 */
 	private boolean taskStop() {
-		if(this.task != null) {
+		if (this.task != null) {
 			this.task.cancel();
 			this.task = null;
 			return true;

@@ -51,21 +51,21 @@ public class EPListener {
 	@Listener
 	public void onEntityDamage(DamageEntityEvent event) {
 		Optional<EntityDamageSource> optDamageSource = event.getCause().first(EntityDamageSource.class);
-	    if(optDamageSource.isPresent() && !event.willCauseDeath()) {
+	    if (optDamageSource.isPresent() && !event.willCauseDeath()) {
 	    	Entity entity = optDamageSource.get().getSource();
 	        Entity targetEntity = event.getTargetEntity();
-	        if(targetEntity instanceof Player){
+	        if (targetEntity instanceof Player){
 	        	Player victim = (Player) targetEntity;
-		        if(entity instanceof Projectile){
+		        if (entity instanceof Projectile){
 		        	ProjectileSource projectile = ((Projectile)entity).getShooter();
 		        	if (projectile instanceof Player){
 		        		Optional<EPlayer> optShooter = this.plugin.getEServer().getEPlayer(((Player) projectile).getUniqueId());
-			        	if(optShooter.isPresent()){
+			        	if (optShooter.isPresent()){
 			        		EPlayer shooter = optShooter.get();
-			        		if(!shooter.equals(victim)){
+			        		if (!shooter.equals(victim)){
 					        	this.plugin.getService().add(shooter.getUniqueId(), victim.getUniqueId(), false);
 					        	this.plugin.getService().add(victim.getUniqueId(), shooter.getUniqueId(), true);
-			        			if(shooter.hasPermission(EPPermissions.ARROW.get()) && entity instanceof Arrow){
+			        			if (shooter.hasPermission(EPPermissions.ARROW.get()) && entity instanceof Arrow){
 						        	Double heal = (victim.get(Keys.HEALTH).get() - event.getFinalDamage());
 				        			shooter.sendMessage(EPMessages.PREFIX.get() + EPMessages.ARROW_INFORMATION.get()
 				        					.replaceAll("<player>", victim.getName())
@@ -74,7 +74,7 @@ public class EPListener {
 			        		}
 			        	}
 		        	}
-		        } else if(entity instanceof Player) {
+		        } else if (entity instanceof Player) {
 	        		this.plugin.getService().add(entity.getUniqueId(), targetEntity.getUniqueId(), false);
 		        	this.plugin.getService().add(targetEntity.getUniqueId(), entity.getUniqueId(), true);
 		        }
@@ -85,12 +85,12 @@ public class EPListener {
 	@Listener
 	public void onPlayerDisconnected(ClientConnectionEvent.Disconnect event) {
 		Optional<EPlayer> optEPlayer = this.plugin.getEServer().getEPlayer(event.getTargetEntity());
-		if(optEPlayer.isPresent()){
+		if (optEPlayer.isPresent()){
 			EPlayer player = optEPlayer.get();
 			// Le joueur déconnecte en étant en combat
-			if(this.plugin.getService().isFight(player.getUniqueId())){
+			if (this.plugin.getService().isFight(player.getUniqueId())){
 				this.plugin.getService().remove(player.getUniqueId());
-				if(getDisconnect()){
+				if (getDisconnect()){
 					// Le joueur vient de déconnecter en combat
 					player.setHealth(0);
 					this.plugin.getEServer().broadcast(EPMessages.PREFIX.get() + EPMessages.ENTITY_DAMAGE_PLAYER_DISCONNECT.get()
@@ -103,7 +103,7 @@ public class EPListener {
 	
 	@Listener
 	public void onPlayerDeath(DestructEntityEvent event) {
-		if(event.getTargetEntity() instanceof Player){
+		if (event.getTargetEntity() instanceof Player){
 			Optional<DamageSource> optDamageSource = event.getCause().first(DamageSource.class);
 			Player victim = (Player) event.getTargetEntity();
 			if (optDamageSource.isPresent()) {

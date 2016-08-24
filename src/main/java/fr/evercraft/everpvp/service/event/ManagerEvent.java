@@ -33,7 +33,7 @@ public class ManagerEvent {
 	
 	public void fightStart(EPlayer player, UUID other_uuid, boolean victim) {
 		Optional<EPlayer> other = this.plugin.getEServer().getEPlayer(other_uuid);
-		if(other.isPresent()) {
+		if (other.isPresent()) {
 			this.fightStart(player, other.get(), victim);
 		}
 	}
@@ -45,7 +45,7 @@ public class ManagerEvent {
 	
 	public void fightStop(UUID player_uuid) {
 		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);
-		if(player.isPresent()) {
+		if (player.isPresent()) {
 			this.fightStop(player.get());
 		}
 	}

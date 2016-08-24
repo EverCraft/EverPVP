@@ -51,7 +51,7 @@ public class BossBarFight {
 		this.cooldown = this.plugin.getConfigs().getCooldown() * 1000;
 		
 		this.priority = PriorityService.DEFAULT;
-		if(this.plugin.getEverAPI().getManagerService().getPriority().isPresent()) {
+		if (this.plugin.getEverAPI().getManagerService().getPriority().isPresent()) {
 			this.priority = this.plugin.getEverAPI().getManagerService().getPriority().get().getBossBar(ManagerBossBar.IDENTIFIER);
 		}
 		
@@ -76,7 +76,7 @@ public class BossBarFight {
 		float percent = Math.max(0, Math.min(1, (time - System.currentTimeMillis()) / this.cooldown));
 		
 		Optional<ServerBossBar> bossbar = player.getBossBar(ManagerBossBar.IDENTIFIER);
-		if(bossbar.isPresent()) {
+		if (bossbar.isPresent()) {
 			bossbar.get().setName(text);
 			bossbar.get().setPercent(percent);
 			bossbar.get().setColor(this.color);

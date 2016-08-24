@@ -63,8 +63,8 @@ public class EPUntag extends ESubCommand<EverPVP> {
 		// Résultat de la commande :
 		boolean resultat = false;
 		
-		if(args.size() == 1) {
-			if(args.get(1).equals("*")){
+		if (args.size() == 1) {
+			if (args.get(1).equals("*")){
 				resultat = commandUntagAll(source);
 			} else {
 				resultat = commandUntag(source, args.get(0));
@@ -78,9 +78,9 @@ public class EPUntag extends ESubCommand<EverPVP> {
 	private boolean commandUntag(final CommandSource player, final String arg) {
 		Optional<EPlayer> optPlayer = this.plugin.getEServer().getEPlayer(arg);
 		// Le joueur existe
-		if(optPlayer.isPresent()){
+		if (optPlayer.isPresent()){
 			EPlayer target = optPlayer.get();
-			if(this.plugin.getService().isFight(target.getUniqueId())){
+			if (this.plugin.getService().isFight(target.getUniqueId())){
 				this.plugin.getService().remove(target.getUniqueId());
 				player.sendMessage(EChat.of(EPMessages.PREFIX.get() + EPMessages.UNTAG_MESSAGE.get()
 						.replaceAll("<player>", target.getDisplayName())));

@@ -61,7 +61,7 @@ public class EPReload extends ESubCommand<EverPVP> {
 		// Résultat de la commande :
 		boolean resultat = false;
 		
-		if(args.size() == 0) {
+		if (args.size() == 0) {
 			resultat = commandReload(source);
 		} else {
 			source.sendMessage(this.help(source));

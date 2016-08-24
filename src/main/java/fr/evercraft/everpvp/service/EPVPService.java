@@ -44,9 +44,9 @@ public class EPVPService implements PVPService{
 	
 	public void reload() {
 		// Stop
-		for(Entry<UUID, Long> player_uuid : this.players.entrySet()) {
+		for (Entry<UUID, Long> player_uuid : this.players.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid.getKey());
-			if(player.isPresent()) {
+			if (player.isPresent()) {
 				// BossBar
 				this.plugin.getManagerBossBar().getFight().remove(player.get());
 				// Event
@@ -68,7 +68,7 @@ public class EPVPService implements PVPService{
 
 	@Override
 	public Optional<Long> getTime(UUID player_uuid) {
-		if(this.isFight(player_uuid)){
+		if (this.isFight(player_uuid)){
 			return Optional.of(this.players.get(player_uuid));
 		}
 		return Optional.empty();
@@ -79,7 +79,7 @@ public class EPVPService implements PVPService{
 		// Si le joueur est pas encore en combat
 		if (!this.isFight(player_uuid)) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);
-			if(player.isPresent()) {
+			if (player.isPresent()) {
 				// BossBar
 				this.plugin.getManagerBossBar().getFight().send(player.get(), time);
 				// Event
@@ -96,7 +96,7 @@ public class EPVPService implements PVPService{
 		// Si le joueur n'était pas de combat
 		if (this.players.remove(player_uuid) != null) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);
-			if(player.isPresent()) {
+			if (player.isPresent()) {
 				// BossBar
 				this.plugin.getManagerEvent().fightStop(player.get());
 				// Event
@@ -128,19 +128,19 @@ public class EPVPService implements PVPService{
 	public void updateAsync() {
 		final List<UUID> players = new ArrayList<UUID>();
 		long time = System.currentTimeMillis();
-		for(Entry<UUID, Long> player_uuid : this.players.entrySet()) {
-			if(player_uuid.getValue() <= time) {
+		for (Entry<UUID, Long> player_uuid : this.players.entrySet()) {
+			if (player_uuid.getValue() <= time) {
 				players.add(player_uuid.getKey());
 			} else {
 				Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid.getKey());
-				if(player.isPresent()) {
+				if (player.isPresent()) {
 					// BossBar
 					this.plugin.getManagerBossBar().getFight().send(player.get(), player_uuid.getValue());
 				}
 			}
 		}
 		
-		if(!players.isEmpty()) {
+		if (!players.isEmpty()) {
 			this.plugin.getGame().getScheduler().createTaskBuilder()
 					.execute(() -> updateSync(players))
 					.submit(this.plugin);
@@ -151,7 +151,7 @@ public class EPVPService implements PVPService{
 	 * Mise à jour Sync
 	 */
 	private void updateSync(final List<UUID> players) {
-		for(UUID player : players) {
+		for (UUID player : players) {
 			this.remove(player);
 		}
 	}
