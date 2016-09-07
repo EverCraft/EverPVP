@@ -31,6 +31,7 @@ import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
+import fr.evercraft.everapi.event.FightEvent;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
 
@@ -89,7 +90,7 @@ public class EPListener {
 			EPlayer player = optEPlayer.get();
 			// Le joueur déconnecte en étant en combat
 			if (this.plugin.getService().isFight(player.getUniqueId())){
-				this.plugin.getService().remove(player.getUniqueId());
+				this.plugin.getService().remove(player.getUniqueId(), FightEvent.Stop.Reason.DISCONNECTED);
 				if (getDisconnect()){
 					// Le joueur vient de déconnecter en combat
 					player.setHealth(0);
@@ -108,7 +109,7 @@ public class EPListener {
 			Player victim = (Player) event.getTargetEntity();
 			if (optDamageSource.isPresent()) {
 				// Fin du FightEvent
-				this.plugin.getService().remove(victim.getUniqueId());
+				this.plugin.getService().remove(victim.getUniqueId(), FightEvent.Stop.Reason.DEAD);
 			}
 			this.plugin.getArmorStand().spawnArmorStand(victim);
 		}

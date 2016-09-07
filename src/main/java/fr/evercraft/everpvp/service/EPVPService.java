@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import fr.evercraft.everapi.event.FightEvent;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.PVPService;
 import fr.evercraft.everpvp.EverPVP;
@@ -50,7 +51,7 @@ public class EPVPService implements PVPService{
 				// BossBar
 				this.plugin.getManagerBossBar().getFight().remove(player.get());
 				// Event
-				this.plugin.getManagerEvent().fightStop(player.get());
+				this.plugin.getManagerEvent().fightStop(player.get(), FightEvent.Stop.Reason.PLUGIN);
 			}
 		}
 		
@@ -92,13 +93,13 @@ public class EPVPService implements PVPService{
 		return true;
 	}
 	
-	public boolean remove(UUID player_uuid){
+	public boolean remove(UUID player_uuid, FightEvent.Stop.Reason reason){
 		// Si le joueur n'était pas de combat
 		if (this.players.remove(player_uuid) != null) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid);
 			if (player.isPresent()) {
 				// BossBar
-				this.plugin.getManagerEvent().fightStop(player.get());
+				this.plugin.getManagerEvent().fightStop(player.get(), reason);
 				// Event
 				this.plugin.getManagerBossBar().getEndFight().add(player.get());
 			}
@@ -152,7 +153,7 @@ public class EPVPService implements PVPService{
 	 */
 	private void updateSync(final List<UUID> players) {
 		for (UUID player : players) {
-			this.remove(player);
+			this.remove(player, FightEvent.Stop.Reason.TIME);
 		}
 	}
 }

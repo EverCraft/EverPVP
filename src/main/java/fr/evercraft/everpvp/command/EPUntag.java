@@ -27,6 +27,7 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
+import fr.evercraft.everapi.event.FightEvent;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -81,7 +82,7 @@ public class EPUntag extends ESubCommand<EverPVP> {
 		if (optPlayer.isPresent()){
 			EPlayer target = optPlayer.get();
 			if (this.plugin.getService().isFight(target.getUniqueId())){
-				this.plugin.getService().remove(target.getUniqueId());
+				this.plugin.getService().remove(target.getUniqueId(), FightEvent.Stop.Reason.COMMAND);
 				player.sendMessage(EChat.of(EPMessages.PREFIX.get() + EPMessages.UNTAG_MESSAGE.get()
 						.replaceAll("<player>", target.getDisplayName())));
 				return true;
