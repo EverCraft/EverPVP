@@ -72,7 +72,7 @@ public class BossBarFight {
 	 * @return True si la BossBar est bien ajouté
 	 */
 	public boolean send(EPlayer player, long time) {
-		Text text = player.replaceVariable(this.message.replaceAll("<time>", this.plugin.getEverAPI().getManagerUtils().getDate().formatDateDiff(time)));
+		Text text = player.replaceVariable(this.message.replaceAll("<time>", this.plugin.getEverAPI().getManagerUtils().getDate().formatDate(time)));
 		float percent = Math.max(0, Math.min(1, (time - System.currentTimeMillis()) / this.cooldown));
 		
 		Optional<ServerBossBar> bossbar = player.getBossBar(ManagerBossBar.IDENTIFIER);
