@@ -19,6 +19,7 @@ package fr.evercraft.everpvp;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 
+import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.services.PVPService;
@@ -31,14 +32,14 @@ import fr.evercraft.everpvp.service.EPVPService;
 import fr.evercraft.everpvp.service.ETask;
 import fr.evercraft.everpvp.service.event.ManagerEvent;
 
-@Plugin(id = "fr.evercraft.everpvp", 
+@Plugin(id = "everpvp", 
 		name = "EverPVP", 
-		version = "1.2", 
+		version = EverAPI.VERSION, 
 		description = "PVP",
 		url = "http://evercraft.fr/",
 		authors = {"rexbut","lesbleu"},
 		dependencies = {
-		    @Dependency(id = "fr.evercraft.everapi", version = "1.2")
+		    @Dependency(id = "everapi", version = EverAPI.VERSION)
 		})
 public class EverPVP extends EPlugin {
 
