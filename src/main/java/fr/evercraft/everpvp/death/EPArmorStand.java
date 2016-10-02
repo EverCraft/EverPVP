@@ -58,13 +58,14 @@ public class EPArmorStand {
 	        // General
 	        armorStand.offer(Keys.ARMOR_STAND_HAS_ARMS, true);
 	        armorStand.offer(Keys.ARMOR_STAND_HAS_BASE_PLATE, false);
-	        armorStand.offer(Keys.ARMOR_STAND_HAS_GRAVITY, false);
+	        armorStand.offer(Keys.HAS_GRAVITY, false);
 	        armorStand.offer(Keys.ARMOR_STAND_MARKER, false);
 	        armorStand.offer(Keys.ARMOR_STAND_IS_SMALL, false);
+	        armorStand.offer(Keys.BASE_SIZE, Float.valueOf("10.0"));
 	        // Position ArmorSTAND
-	        armorStand.offer(Keys.HEAD_ROTATION, new Vector3d(310, 0, UtilsInteger.range(-45, 45)));
-	        armorStand.offer(Keys.LEFT_ARM_ROTATION, new Vector3d(UtilsInteger.range(-45, 45), 0, 270));
-	        armorStand.offer(Keys.RIGHT_ARM_ROTATION, new Vector3d(UtilsInteger.range(-45, 45), 0, 90));
+	        armorStand.offer(Keys.HEAD_ROTATION, new Vector3d(310, 0, UtilsInteger.range(-75, 75)));
+	        armorStand.offer(Keys.LEFT_ARM_ROTATION, new Vector3d(UtilsInteger.range(-75, 75), 0, 270));
+	        armorStand.offer(Keys.RIGHT_ARM_ROTATION, new Vector3d(UtilsInteger.range(-75, 75), 0, 90));
 	        armorStand.offer(Keys.CHEST_ROTATION, new Vector3d(285, 0, 0));
 	        armorStand.offer(Keys.LEFT_LEG_ROTATION, new Vector3d(180, 0, 0));
 	        armorStand.offer(Keys.RIGHT_LEG_ROTATION, new Vector3d(180, 0, 0));
