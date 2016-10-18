@@ -37,8 +37,9 @@ public class EPConfig extends EConfig {
 	}
 
 	public void loadDefault() {
-		addDefault("debug", false, "Displays plugin performance in the logs");
-		addDefault("language", EMessage.FRENCH, "Select language messages", "Examples : ", "  French : FR_fr", "  English : EN_en");
+		addDefault("DEBUG", false, "Displays plugin performance in the logs");
+		addDefault("LANGUAGE", EMessage.FRENCH, "Select language messages", "Examples : ", "  French : FR_fr", "  English : EN_en");
+		
 		addDefault("cooldown-fight", 45);
 		addDefault("disconnected-in-fight", true, "Si true le joueur sera tué si il déconnecte en combat.");
 		// BossBar : Fight
