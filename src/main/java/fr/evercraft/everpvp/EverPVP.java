@@ -42,7 +42,7 @@ import fr.evercraft.everpvp.service.event.ManagerEvent;
 		    @Dependency(id = "everapi", version = EverAPI.VERSION),
 		    @Dependency(id = "spongeapi", version = EverAPI.SPONGEAPI_VERSION)
 		})
-public class EverPVP extends EPlugin {
+public class EverPVP extends EPlugin<EverPVP> {
 
 	private EPConfig configs;
 	private EPMessage messages;

@@ -25,7 +25,7 @@ import fr.evercraft.everapi.plugin.file.EConfig;
 import fr.evercraft.everapi.plugin.file.EMessage;
 import fr.evercraft.everapi.sponge.UtilsBossBar;
 
-public class EPConfig extends EConfig {
+public class EPConfig extends EConfig<EverPVP> {
 
 	public EPConfig(EverPVP plugin) {
 		super(plugin);
