@@ -86,7 +86,7 @@ public class BossBarFight {
 			bossbar.get().setCreateFog(this.createFog);
 			return true;
 		} else {
-			return player.addBossBar(ManagerBossBar.IDENTIFIER, this.priority, ServerBossBar.builder()
+			return player.sendBossBar(ManagerBossBar.IDENTIFIER, this.priority, ServerBossBar.builder()
 					.name(text)
 					.percent(percent)
 					.color(this.color)

@@ -97,7 +97,7 @@ public class BossBarEndFight {
 			bossbar.get().setCreateFog(this.createFog);
 			return true;
 		} else {
-			return player.addBossBar(ManagerBossBar.IDENTIFIER, this.priority, ServerBossBar.builder()
+			return player.sendBossBar(ManagerBossBar.IDENTIFIER, this.priority, ServerBossBar.builder()
 					.name(text)
 					.percent(this.percent)
 					.color(this.color)
