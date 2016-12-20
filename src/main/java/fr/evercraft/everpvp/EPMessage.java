@@ -18,6 +18,7 @@ package fr.evercraft.everpvp;
 
 import com.google.common.base.Preconditions;
 
+import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.message.EMessageFormat;
 import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.plugin.file.EMessage;
@@ -108,33 +109,31 @@ public class EPMessage extends EMessage<EverPVP> {
 		INDIRECT_DAMAGE_SUICIDE_MAGIC("indirectDamage.suicide.magic", "&6<victim> &7s'est suicidé avec une potion de dégat.");
 		
 		private final String path;
-	    private final EMessageFormat french;
-	    private final EMessageFormat english;
+	    private final EMessageBuilder french;
+	    private final EMessageBuilder english;
 	    private EMessageFormat message;
 	    
 	    private EPMessages(final String path, final String french) {   	
-	    	this(path, 
-	    		EMessageFormat.builder().chat(new EFormatString(french), true).build(), 
-	    		EMessageFormat.builder().chat(new EFormatString(french), true).build());
+	    	this(path, EMessageFormat.builder().chat(new EFormatString(french), true));
 	    }
 	    
 	    private EPMessages(final String path, final String french, final String english) {   	
 	    	this(path, 
-	    		EMessageFormat.builder().chat(new EFormatString(french), true).build(), 
-	    		EMessageFormat.builder().chat(new EFormatString(english), true).build());
+	    		EMessageFormat.builder().chat(new EFormatString(french), true), 
+	    		EMessageFormat.builder().chat(new EFormatString(english), true));
 	    }
 	    
-	    private EPMessages(final String path, final EMessageFormat french) {   	
+	    private EPMessages(final String path, final EMessageBuilder french) {   	
 	    	this(path, french, french);
 	    }
 	    
-	    private EPMessages(final String path, final EMessageFormat french, final EMessageFormat english) {
+	    private EPMessages(final String path, final EMessageBuilder french, final EMessageBuilder english) {
 	    	Preconditions.checkNotNull(french, "Le message '" + this.name() + "' n'est pas définit");
 	    	
 	    	this.path = path;	    	
 	    	this.french = french;
 	    	this.english = english;
-	    	this.message = french;
+	    	this.message = french.build();
 	    }
 
 	    public String getName() {
@@ -145,11 +144,11 @@ public class EPMessage extends EMessage<EverPVP> {
 			return this.path;
 		}
 
-		public Object getFrench() {
+		public EMessageBuilder getFrench() {
 			return this.french;
 		}
 
-		public Object getEnglish() {
+		public EMessageBuilder getEnglish() {
 			return this.english;
 		}
 		
