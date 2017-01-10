@@ -19,7 +19,6 @@ package fr.evercraft.everpvp;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
-import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.EParentCommand;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
 
@@ -36,7 +35,7 @@ public class EPCommand extends EParentCommand<EverPVP> {
 
 	@Override
 	public Text description(final CommandSource source) {
-		return EChat.of(EPMessages.DESCRIPTION.get());
+		return EPMessages.DESCRIPTION.getText();
 	}
 
 	@Override

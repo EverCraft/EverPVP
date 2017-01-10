@@ -16,6 +16,8 @@
  */
 package fr.evercraft.everpvp.bossbar;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.spongepowered.api.boss.BossBarColor;
@@ -23,6 +25,8 @@ import org.spongepowered.api.boss.BossBarOverlay;
 import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.text.Text;
 
+import fr.evercraft.everapi.message.format.EFormatString;
+import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everpvp.EverPVP;
@@ -72,7 +76,11 @@ public class BossBarFight {
 	 * @return True si la BossBar est bien ajouté
 	 */
 	public boolean send(EPlayer player, long time) {
-		Text text = player.replaceVariable(this.message.replaceAll("<time>", this.plugin.getEverAPI().getManagerUtils().getDate().formatDate(time)));
+		Map<String, EReplace<?>> replaces = new HashMap<String, EReplace<?>>();
+		replaces.putAll(player.getReplacesAll());
+		replaces.put("<time>", EReplace.of(() -> this.plugin.getEverAPI().getManagerUtils().getDate().formatDate(time)));
+		
+		Text text = EFormatString.of(this.message).toText(replaces);
 		float percent = Math.max(0, Math.min(1, (time - System.currentTimeMillis()) / this.cooldown));
 		
 		Optional<ServerBossBar> bossbar = player.getBossBar(ManagerBossBar.IDENTIFIER);

@@ -28,7 +28,6 @@ import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.event.FightEvent;
-import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everpvp.EPCommand;
@@ -46,7 +45,7 @@ public class EPUntag extends ESubCommand<EverPVP> {
 	}
 
 	public Text description(final CommandSource source) {
-		return EChat.of(EPMessages.UNTAG_DESCRIPTION.get());
+		return EPMessages.UNTAG_DESCRIPTION.getText();
 	}
 	
 	public List<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
@@ -78,29 +77,32 @@ public class EPUntag extends ESubCommand<EverPVP> {
 
 	private boolean commandUntag(final CommandSource player, final String arg) {
 		Optional<EPlayer> optPlayer = this.plugin.getEServer().getEPlayer(arg);
-		// Le joueur existe
-		if (optPlayer.isPresent()){
-			EPlayer target = optPlayer.get();
-			if (this.plugin.getService().isFight(target.getUniqueId())){
-				this.plugin.getService().remove(target.getUniqueId(), FightEvent.Stop.Reason.COMMAND);
-				player.sendMessage(EChat.of(EPMessages.PREFIX.get() + EPMessages.UNTAG_MESSAGE.get()
-						.replaceAll("<player>", target.getDisplayName())));
-				return true;
-			} else {
-				player.sendMessage(EChat.of(EPMessages.PREFIX.get() + EPMessages.UNTAG_ERROR.get()
-						.replaceAll("<player>", target.getDisplayName())));
-				return false;
-			}
 		// Le joueur est introuvable
-		} else {
-			player.sendMessage(EPMessages.PREFIX.getText().concat(EAMessages.PLAYER_NOT_FOUND.getText()));
+		if (!optPlayer.isPresent()) {
+			EAMessages.PLAYER_NOT_FOUND.sender()
+				.prefix(EPMessages.PREFIX)
+				.sendTo(player);
 			return false;
 		}
+		
+		EPlayer target = optPlayer.get();
+		if (!this.plugin.getService().isFight(target.getUniqueId())) {
+			EPMessages.UNTAG_ERROR.sender()
+				.replace("<player>", target.getDisplayName())
+				.sendTo(player);
+			return false;
+		}
+		
+		this.plugin.getService().remove(target.getUniqueId(), FightEvent.Stop.Reason.COMMAND);
+		EPMessages.UNTAG_MESSAGE.sender()
+			.replace("<player>", target.getDisplayName())
+			.sendTo(player);
+		return true;
 	}
 	
 	private boolean commandUntagAll(final CommandSource player) {
-		this.plugin.getService().reload();
-		player.sendMessage(EPMessages.PREFIX.getText().concat(EPMessages.UNTAGALL_MESSAGE.getText()));
+		this.plugin.getService().unTagAll();
+		EPMessages.UNTAGALL_MESSAGE.sendTo(player);
 		return true;
 	}
 }

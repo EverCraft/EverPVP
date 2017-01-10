@@ -68,9 +68,10 @@ public class EPListener {
 					        	this.plugin.getService().add(victim.getUniqueId(), shooter.getUniqueId(), true);
 			        			if (shooter.hasPermission(EPPermissions.ARROW.get()) && entity instanceof Arrow){
 						        	Double heal = (victim.get(Keys.HEALTH).get() - event.getFinalDamage());
-				        			shooter.sendMessage(EPMessages.PREFIX.get() + EPMessages.ARROW_INFORMATION.get()
-				        					.replaceAll("<player>", victim.getName())
-				        					.replaceAll("<heal>", heal.toString()));
+				        			EPMessages.ARROW_INFORMATION.sender()
+				        				.replace("<player>", victim.getName())
+				        				.replace("<heal>", heal.toString())
+				        				.sendTo(shooter);
 			        			}
 			        		}
 			        	}
@@ -94,8 +95,9 @@ public class EPListener {
 				if (getDisconnect()){
 					// Le joueur vient de déconnecter en combat
 					player.setHealth(0);
-					this.plugin.getEServer().broadcast(EPMessages.PREFIX.get() + EPMessages.ENTITY_DAMAGE_PLAYER_DISCONNECT.get()
-							.replaceAll("<victim>", player.getDisplayName()));
+					EPMessages.ENTITY_DAMAGE_PLAYER_DISCONNECT.sender()
+						.replace("<victim>", player.getDisplayName())
+						.sendAll(this.plugin.getEServer().getOnlineEPlayers());
 					this.plugin.getArmorStand().spawnArmorStand(player);
 				}
 			}

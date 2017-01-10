@@ -26,7 +26,6 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
-import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everpvp.EPCommand;
 import fr.evercraft.everpvp.EPMessage.EPMessages;
@@ -43,7 +42,7 @@ public class EPReload extends ESubCommand<EverPVP> {
 	}
 
 	public Text description(final CommandSource source) {
-		return EChat.of(EAMessages.RELOAD_DESCRIPTION.get());
+		return EAMessages.RELOAD_DESCRIPTION.getText();
 	}
 	
 	public List<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
@@ -71,7 +70,9 @@ public class EPReload extends ESubCommand<EverPVP> {
 
 	private boolean commandReload(final CommandSource player) {
 		this.plugin.reload();
-		player.sendMessage(EChat.of(EPMessages.PREFIX.get() + EAMessages.RELOAD_COMMAND.get()));
+		EAMessages.RELOAD_COMMAND.sender()
+			.prefix(EPMessages.PREFIX)
+			.sendTo(player);
 		return true;
 	}
 }

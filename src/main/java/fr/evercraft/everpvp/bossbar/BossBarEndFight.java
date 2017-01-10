@@ -28,6 +28,7 @@ import org.spongepowered.api.boss.BossBarOverlay;
 import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.text.Text;
 
+import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everpvp.EverPVP;
@@ -84,7 +85,7 @@ public class BossBarEndFight {
 	}
 	
 	private boolean send(EPlayer player) {
-		Text text = player.replaceVariable(this.message);
+		Text text = EFormatString.of(this.message).toText(player.getReplacesAll());
 		
 		Optional<ServerBossBar> bossbar = player.getBossBar(ManagerBossBar.IDENTIFIER);
 		if (bossbar.isPresent()) {

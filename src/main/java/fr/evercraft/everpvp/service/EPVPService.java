@@ -44,7 +44,14 @@ public class EPVPService implements PVPService{
 	}
 	
 	public void reload() {
-		// Stop
+		this.unTagAll();
+		
+		// Start
+		this.cooldown = this.plugin.getConfigs().getCooldown() * 1000;
+	}
+	
+	@Override
+	public void unTagAll() {
 		for (Entry<UUID, Long> player_uuid : this.players.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(player_uuid.getKey());
 			if (player.isPresent()) {
@@ -57,9 +64,6 @@ public class EPVPService implements PVPService{
 		
 		this.players.clear();
 		this.players_end.clear();
-		
-		// Start
-		this.cooldown = this.plugin.getConfigs().getCooldown() * 1000;
 	}
 	
 	@Override
