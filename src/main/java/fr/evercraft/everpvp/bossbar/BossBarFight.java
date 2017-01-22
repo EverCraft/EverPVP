@@ -59,8 +59,6 @@ public class BossBarFight {
 			this.priority = this.plugin.getEverAPI().getManagerService().getPriority().get().getBossBar(ManagerBossBar.IDENTIFIER);
 		}
 		
-		this.plugin.getLogger().warn("Priority : " + this.priority);
-		
 		this.message = this.plugin.getConfigs().getBossBarFightMessage();
 		this.color = this.plugin.getConfigs().getBossBarFightColor();
 		this.overlay = this.plugin.getConfigs().getBossBarFightOverlay();
