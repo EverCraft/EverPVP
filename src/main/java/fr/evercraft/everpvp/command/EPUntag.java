@@ -17,6 +17,7 @@
 package fr.evercraft.everpvp.command;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +49,7 @@ public class EPUntag extends ESubCommand<EverPVP> {
 		return EPMessages.UNTAG_DESCRIPTION.getText();
 	}
 	
-	public List<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
+	public Collection<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
 		return new ArrayList<String>();
 	}
 
