@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with EverPVP.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everpvp.command;
+package fr.evercraft.everpvp.command.sub;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class EPReload extends ESubCommand<EverPVP> {
 	}
 	
 	public Collection<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
-		return new ArrayList<String>();
+		return Arrays.asList();
 	}
 
 	public Text help(final CommandSource source) {
