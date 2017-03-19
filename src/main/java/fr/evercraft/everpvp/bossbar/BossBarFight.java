@@ -75,7 +75,7 @@ public class BossBarFight {
 	 */
 	public boolean send(EPlayer player, long time) {
 		Map<String, EReplace<?>> replaces = new HashMap<String, EReplace<?>>();
-		replaces.putAll(player.getReplacesAll());
+		replaces.putAll(player.getReplaces());
 		replaces.put("<time>", EReplace.of(() -> this.plugin.getEverAPI().getManagerUtils().getDate().formatDate(time)));
 		
 		Text text = EFormatString.of(this.message).toText(replaces);

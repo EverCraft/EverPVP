@@ -85,7 +85,7 @@ public class BossBarEndFight {
 	}
 	
 	private boolean send(EPlayer player) {
-		Text text = EFormatString.of(this.message).toText(player.getReplacesAll());
+		Text text = EFormatString.of(this.message).toText(player.getReplaces());
 		
 		Optional<ServerBossBar> bossbar = player.getBossBar(ManagerBossBar.IDENTIFIER);
 		if (bossbar.isPresent()) {

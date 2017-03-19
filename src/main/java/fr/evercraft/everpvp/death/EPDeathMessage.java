@@ -86,7 +86,7 @@ public class EPDeathMessage {
 	
 	private void sendDeathMessage(IndirectEntityDamageSource damageSource, EPlayer victim){
 		DamageType type = damageSource.getType();
-		this.plugin.getLogger().debug("Cause : IndirectEntityDamageSource; Type : " + type);
+		this.plugin.getELogger().debug("Cause : IndirectEntityDamageSource; Type : " + type);
 		EPMessages message = null;
 		// Le killer est un joueur
 		if (damageSource.getIndirectSource() instanceof Player){
@@ -132,7 +132,7 @@ public class EPDeathMessage {
 	
 	private void sendDeathMessage(BlockDamageSource damageSource, EPlayer victim){
 		DamageType type = damageSource.getType();
-		this.plugin.getLogger().debug("Cause : BlockDamageSource; Type : " + type);
+		this.plugin.getELogger().debug("Cause : BlockDamageSource; Type : " + type);
 		EPMessages message = null;
 		this.plugin.getEServer().broadcast("Type : " + type);
 		if (type.equals(DamageTypes.CONTACT)){
@@ -151,7 +151,7 @@ public class EPDeathMessage {
 	
 	private void sendDeathMessage(FallingBlockDamageSource damageSource, EPlayer victim){
 		DamageType type = damageSource.getType();
-		this.plugin.getLogger().debug("Cause : FallingBlockDamageSource; Type : " + type);
+		this.plugin.getELogger().debug("Cause : FallingBlockDamageSource; Type : " + type);
 		EPMessages message = null;
 		if (type.equals(DamageTypes.CONTACT)){
 			message = EPMessages.FALLING_DAMAGE_CONTACT;
@@ -167,7 +167,7 @@ public class EPDeathMessage {
 	
 	private void sendDeathMessage(EntityDamageSource damageSource, EPlayer victim){
 		DamageType type = damageSource.getType();
-		this.plugin.getLogger().debug("Cause : EntityDamageSource; Type : " + type);
+		this.plugin.getELogger().debug("Cause : EntityDamageSource; Type : " + type);
 		EPMessages message = null;
 		// Le killer est un joueur
 		if (damageSource.getSource() instanceof Player){
@@ -227,7 +227,7 @@ public class EPDeathMessage {
 	
 	private void sendDeathMessage(DamageSource damageSource, EPlayer victim){
 		DamageType type = damageSource.getType();
-		this.plugin.getLogger().debug("Cause : DamageSource; Type : " + type);
+		this.plugin.getELogger().debug("Cause : DamageSource; Type : " + type);
 		EPMessages message = null;
 		if (type.equals(DamageTypes.CONTACT)){
 			message = EPMessages.DAMAGE_CONTACT;
@@ -255,7 +255,7 @@ public class EPDeathMessage {
 			this.message(message, victim)
 				.sendTo(victim);
 		} else {
-			this.plugin.getLogger().debug("Erreur : Cause : DamageSource; Type : " + type);
+			this.plugin.getELogger().debug("Erreur : Cause : DamageSource; Type : " + type);
 		}
 	}
 	
@@ -285,14 +285,14 @@ public class EPDeathMessage {
 	
 	private Text getButtonKiller(final EPlayer killer){
 		return EPMessages.KILLER_NAME.getFormat().toText("<killer>", killer.getDisplayName()).toBuilder()
-				.onHover(TextActions.showText(EPMessages.KILLER_DESCRIPTION_HOVER.getFormat().toText(killer.getReplacesPlayer())))
+				.onHover(TextActions.showText(EPMessages.KILLER_DESCRIPTION_HOVER.getFormat().toText(killer.getReplaces())))
 				.onClick(TextActions.suggestCommand("/msg " + killer.getDisplayName()))
 				.build();
 	}
 	
 	private Text getButtonVictim(final EPlayer victim){
 		return EPMessages.VICTIM_NAME.getFormat().toText("<victim>", victim.getDisplayName()).toBuilder()
-				.onHover(TextActions.showText(EPMessages.VICTIM_DESCRIPTION_HOVER.getFormat().toText(victim.getReplacesPlayer())))
+				.onHover(TextActions.showText(EPMessages.VICTIM_DESCRIPTION_HOVER.getFormat().toText(victim.getReplaces())))
 				.onClick(TextActions.suggestCommand("/msg " + victim.getDisplayName()))
 				.build();
 	}

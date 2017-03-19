@@ -41,7 +41,7 @@ public class ManagerEvent {
 	}
 	
 	public void fightStart(EPlayer player, EPlayer other, boolean victim) {
-		this.plugin.getLogger().debug("Event FightEvent.Start : (UUID='" + player.getUniqueId() + "';other='" + other.getUniqueId() + "';victim='" + victim + "')");
+		this.plugin.getELogger().debug("Event FightEvent.Start : (UUID='" + player.getUniqueId() + "';other='" + other.getUniqueId() + "';victim='" + victim + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createFightEventStart(player, other, victim, Cause.source(this.plugin).build()));
 	}
 	
@@ -53,7 +53,7 @@ public class ManagerEvent {
 	}
 
 	public void fightStop(EPlayer player, FightEvent.Stop.Reason reason) {
-		this.plugin.getLogger().debug("Event FightEvent.Stop : (UUID='" + player.getUniqueId() + "',reason='" + reason.name() + "')");
+		this.plugin.getELogger().debug("Event FightEvent.Stop : (UUID='" + player.getUniqueId() + "',reason='" + reason.name() + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createFightEventStop(player, reason, Cause.source(this.plugin).build()));
 	}
 }

@@ -33,7 +33,7 @@ public class EPConfig extends EConfig<EverPVP> {
 	
 	public void reload() {
 		super.reload();
-		this.plugin.getLogger().setDebug(this.isDebug());
+		this.plugin.getELogger().setDebug(this.isDebug());
 	}
 
 	public void loadDefault() {
