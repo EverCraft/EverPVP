@@ -29,7 +29,6 @@ import org.spongepowered.api.text.Text;
 import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everpvp.EverPVP;
 
 public class BossBarFight {
@@ -55,10 +54,7 @@ public class BossBarFight {
 	public void reload() {
 		this.cooldown = this.plugin.getConfigs().getCooldown() * 1000;
 		
-		this.priority = PriorityService.DEFAULT;
-		if (this.plugin.getEverAPI().getManagerService().getPriority().isPresent()) {
-			this.priority = this.plugin.getEverAPI().getManagerService().getPriority().get().getBossBar(ManagerBossBar.IDENTIFIER);
-		}
+		this.priority = this.plugin.getEverAPI().getManagerService().getPriority().getBossBar(ManagerBossBar.IDENTIFIER);
 		
 		this.message = this.plugin.getConfigs().getBossBarFightMessage();
 		this.color = this.plugin.getConfigs().getBossBarFightColor();
