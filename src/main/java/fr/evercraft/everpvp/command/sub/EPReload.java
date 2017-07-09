@@ -19,6 +19,7 @@ package fr.evercraft.everpvp.command.sub;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
@@ -46,7 +47,7 @@ public class EPReload extends ESubCommand<EverPVP> {
 		return EAMessages.RELOAD_DESCRIPTION.getText();
 	}
 	
-	public Collection<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
+	public Collection<String> tabCompleter(final CommandSource source, final List<String> args) throws CommandException {
 		return Arrays.asList();
 	}
 
@@ -57,23 +58,20 @@ public class EPReload extends ESubCommand<EverPVP> {
 					.build();
 	}
 	
-	public boolean subExecute(final CommandSource source, final List<String> args) {
-		// Résultat de la commande :
-		boolean resultat = false;
-		
+	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) {
 		if (args.size() == 0) {
-			resultat = commandReload(source);
+			return this.commandReload(source);
 		} else {
 			source.sendMessage(this.help(source));
 		}
-		return resultat;
+		return CompletableFuture.completedFuture(false);
 	}
 
-	private boolean commandReload(final CommandSource player) {
+	private CompletableFuture<Boolean> commandReload(final CommandSource player) {
 		this.plugin.reload();
 		EAMessages.RELOAD_COMMAND.sender()
 			.prefix(EPMessages.PREFIX)
 			.sendTo(player);
-		return true;
+		return CompletableFuture.completedFuture(true);
 	}
 }

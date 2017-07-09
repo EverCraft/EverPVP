@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
@@ -49,7 +50,7 @@ public class EPUntag extends ESubCommand<EverPVP> {
 		return EPMessages.UNTAG_DESCRIPTION.getText();
 	}
 	
-	public Collection<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
+	public Collection<String> tabCompleter(final CommandSource source, final List<String> args) throws CommandException {
 		return Arrays.asList();
 	}
 
@@ -60,30 +61,27 @@ public class EPUntag extends ESubCommand<EverPVP> {
 					.build();
 	}
 	
-	public boolean subExecute(final CommandSource source, final List<String> args) {
-		// Résultat de la commande :
-		boolean resultat = false;
-		
+	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) {
 		if (args.size() == 1) {
 			if (args.get(1).equals("*")){
-				resultat = commandUntagAll(source);
+				return this.commandUntagAll(source);
 			} else {
-				resultat = commandUntag(source, args.get(0));
+				return this.commandUntag(source, args.get(0));
 			}
 		} else {
 			source.sendMessage(this.help(source));
 		}
-		return resultat;
+		return CompletableFuture.completedFuture(false);
 	}
 
-	private boolean commandUntag(final CommandSource player, final String arg) {
+	private CompletableFuture<Boolean> commandUntag(final CommandSource player, final String arg) {
 		Optional<EPlayer> optPlayer = this.plugin.getEServer().getEPlayer(arg);
 		// Le joueur est introuvable
 		if (!optPlayer.isPresent()) {
 			EAMessages.PLAYER_NOT_FOUND.sender()
 				.prefix(EPMessages.PREFIX)
 				.sendTo(player);
-			return false;
+			return CompletableFuture.completedFuture(false);
 		}
 		
 		EPlayer target = optPlayer.get();
@@ -91,19 +89,19 @@ public class EPUntag extends ESubCommand<EverPVP> {
 			EPMessages.UNTAG_ERROR.sender()
 				.replace("<player>", target.getDisplayName())
 				.sendTo(player);
-			return false;
+			return CompletableFuture.completedFuture(false);
 		}
 		
 		this.plugin.getService().remove(target.getUniqueId(), FightEvent.Stop.Reason.COMMAND);
 		EPMessages.UNTAG_MESSAGE.sender()
 			.replace("<player>", target.getDisplayName())
 			.sendTo(player);
-		return true;
+		return CompletableFuture.completedFuture(true);
 	}
 	
-	private boolean commandUntagAll(final CommandSource player) {
+	private CompletableFuture<Boolean> commandUntagAll(final CommandSource player) {
 		this.plugin.getService().unTagAll();
 		EPMessages.UNTAGALL_MESSAGE.sendTo(player);
-		return true;
+		return CompletableFuture.completedFuture(true);
 	}
 }
