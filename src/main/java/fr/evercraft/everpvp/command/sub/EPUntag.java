@@ -80,6 +80,7 @@ public class EPUntag extends ESubCommand<EverPVP> {
 		if (!optPlayer.isPresent()) {
 			EAMessages.PLAYER_NOT_FOUND.sender()
 				.prefix(EPMessages.PREFIX)
+				.replace("<player>", arg)
 				.sendTo(player);
 			return CompletableFuture.completedFuture(false);
 		}
