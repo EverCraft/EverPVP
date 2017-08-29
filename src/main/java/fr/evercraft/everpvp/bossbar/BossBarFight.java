@@ -29,6 +29,7 @@ import org.spongepowered.api.text.Text;
 import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everpvp.EverPVP;
 
 public class BossBarFight {
@@ -54,7 +55,7 @@ public class BossBarFight {
 	public void reload() {
 		this.cooldown = this.plugin.getConfigs().getCooldown() * 1000;
 		
-		this.priority = this.plugin.getEverAPI().getManagerService().getPriority().getBossBar(ManagerBossBar.IDENTIFIER);
+		this.priority = this.plugin.getEverAPI().getManagerService().getPriority().get(PriorityService.BOSSBAR, ManagerBossBar.IDENTIFIER);
 		
 		this.message = this.plugin.getConfigs().getBossBarFightMessage();
 		this.color = this.plugin.getConfigs().getBossBarFightColor();
@@ -89,7 +90,7 @@ public class BossBarFight {
 			bossbar.get().setCreateFog(this.createFog);
 			return true;
 		} else {
-			return player.sendBossBar(ManagerBossBar.IDENTIFIER, this.priority, ServerBossBar.builder()
+			return player.sendBossBar(ManagerBossBar.IDENTIFIER, ServerBossBar.builder()
 					.name(text)
 					.percent(percent)
 					.color(this.color)
@@ -97,7 +98,9 @@ public class BossBarFight {
 					.darkenSky(this.darkenSky)
 					.playEndBossMusic(this.playEndBossMusic)
 					.createFog(this.createFog)
-					.build());
+					.build(), 
+					Optional.of(this.priority),
+					Optional.empty());
 		}
 	}
 

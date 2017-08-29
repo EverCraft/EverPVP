@@ -30,6 +30,7 @@ import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everpvp.EverPVP;
 
 public class BossBarEndFight {
@@ -68,7 +69,7 @@ public class BossBarEndFight {
 		this.players.clear();
 		
 		// Start
-		this.priority = this.plugin.getEverAPI().getManagerService().getPriority().getBossBar(ManagerBossBar.IDENTIFIER);
+		this.priority = this.plugin.getEverAPI().getManagerService().getPriority().get(PriorityService.BOSSBAR, ManagerBossBar.IDENTIFIER);
 		
 		this.stay = this.plugin.getConfigs().getBossBarEndFightStay();
 		this.percent = this.plugin.getConfigs().getBossBarEndFightPercent() / 100;
@@ -94,7 +95,7 @@ public class BossBarEndFight {
 			bossbar.get().setCreateFog(this.createFog);
 			return true;
 		} else {
-			return player.sendBossBar(ManagerBossBar.IDENTIFIER, this.priority, ServerBossBar.builder()
+			return player.sendBossBar(ManagerBossBar.IDENTIFIER, ServerBossBar.builder()
 					.name(text)
 					.percent(this.percent)
 					.color(this.color)
@@ -102,7 +103,9 @@ public class BossBarEndFight {
 					.darkenSky(this.darkenSky)
 					.playEndBossMusic(this.playEndBossMusic)
 					.createFog(this.createFog)
-					.build());
+					.build(), 
+					Optional.of(this.priority),
+					Optional.empty());
 		}
 	}
 
