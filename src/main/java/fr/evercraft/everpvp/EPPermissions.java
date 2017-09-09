@@ -24,10 +24,11 @@ import fr.evercraft.everapi.plugin.EnumPermission;
 
 public enum EPPermissions implements EnumPermission {
 	ARROW("arrow"),
-	EVERPVP("command"),
-	HELP("help"),
-	RELOAD("reload"),
-	UNTAG("untag");
+	
+	EVERPVP("commands.execute"),
+	HELP("commands.help"),
+	RELOAD("commands.reload"),
+	UNTAG("commands.untag");
 	
 	private final static String prefix = "everpvp";
 	
