@@ -22,7 +22,6 @@ import org.spongepowered.api.boss.BossBarOverlay;
 import org.spongepowered.api.boss.BossBarOverlays;
 
 import fr.evercraft.everapi.plugin.file.EConfig;
-import fr.evercraft.everapi.plugin.file.EMessage;
 import fr.evercraft.everapi.sponge.UtilsBossBar;
 
 public class EPConfig extends EConfig<EverPVP> {
@@ -37,8 +36,7 @@ public class EPConfig extends EConfig<EverPVP> {
 	}
 
 	public void loadDefault() {
-		addDefault("DEBUG", false, "Displays plugin performance in the logs");
-		addDefault("LANGUAGE", EMessage.FRENCH, "Select language messages", "Examples : ", "  French : FR_fr", "  English : EN_en");
+		this.configDefault();
 		
 		addDefault("cooldown-fight", 45);
 		addDefault("disconnected-in-fight", true, "Si true le joueur sera tué si il déconnecte en combat.");

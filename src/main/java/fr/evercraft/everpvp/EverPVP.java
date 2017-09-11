@@ -21,6 +21,7 @@ import org.spongepowered.api.plugin.Plugin;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.exception.PluginDisableException;
+import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.services.PVPService;
 import fr.evercraft.everpvp.bossbar.ManagerBossBar;
@@ -86,9 +87,9 @@ public class EverPVP extends EPlugin<EverPVP> {
 	}
 	
 	@Override
-	protected void onReload() throws PluginDisableException {
-		// Configurations
-		this.reloadConfigurations();
+	protected void onReload() throws PluginDisableException, ServerDisableException {
+		super.onReload();
+		
 		this.bossbar.reload();
 		this.service.reload();
 		this.task.reload();
