@@ -52,7 +52,7 @@ public class EPConfig extends EConfig<EverPVP> {
 		addDefault("cooldown-fight", 45);
 		addDefault("disconnected-in-fight", true, "Si true le joueur sera tué si il déconnecte en combat.");
 		// BossBar : Fight
-		addDefault("bossbar.fight.message", "&4Vous êtes en combat pour encore <time> !");
+		addDefault("bossbar.fight.message", "&4Vous êtes en combat pour encore {time} !");
 		addDefault("bossbar.fight.color", BossBarColors.RED.getName());
 		addDefault("bossbar.fight.overlay", BossBarOverlays.PROGRESS.getName());
 		addDefault("bossbar.fight.darkenSky", false);

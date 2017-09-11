@@ -261,46 +261,46 @@ public class EPDeathMessage {
 	
 	private EMessageSender message(EPMessages message, EPlayer victim){
 		return message.sender()
-				.replace("<victim>", getButtonVictim(victim));
+				.replace("{victim}", getButtonVictim(victim));
 	}
 	
 	private EMessageSender message(EPMessages message, EPlayer victim, EPlayer killer){
 		if (killer.getItemInHand(HandTypes.MAIN_HAND).isPresent()){
 			return message.sender()
-					.replace("<victim>", getButtonVictim(victim))
-					.replace("<killer>", getButtonKiller(killer))
-					.replace("<item>", EChat.getButtomItem(killer.getItemInHand(HandTypes.MAIN_HAND).get(), EPMessages.ITEM_COLOR.getColor()));
+					.replace("{victim}", getButtonVictim(victim))
+					.replace("{killer}", getButtonKiller(killer))
+					.replace("{item}", EChat.getButtomItem(killer.getItemInHand(HandTypes.MAIN_HAND).get(), EPMessages.ITEM_COLOR.getColor()));
 		} else {
 			return message.sender()
-					.replace("<victim>", getButtonVictim(victim))
-					.replace("<killer>", getButtonKiller(killer));
+					.replace("{victim}", getButtonVictim(victim))
+					.replace("{killer}", getButtonKiller(killer));
 		}
 	}
 	
 	private EMessageSender message(EPMessages message, EPlayer victim, Entity monster){
 		return message.sender()
-				.replace("<victim>", getButtonVictim(victim))
-				.replace("<monster>", getButtonMonster(monster));
+				.replace("{victim}", getButtonVictim(victim))
+				.replace("{monster}", getButtonMonster(monster));
 	}
 	
 	private Text getButtonKiller(final EPlayer killer){
-		return EPMessages.KILLER_NAME.getFormat().toText("<killer>", killer.getDisplayName()).toBuilder()
+		return EPMessages.KILLER_NAME.getFormat().toText("{killer}", killer.getDisplayName()).toBuilder()
 				.onHover(TextActions.showText(EPMessages.KILLER_DESCRIPTION_HOVER.getFormat().toText(killer.getReplaces())))
 				.onClick(TextActions.suggestCommand("/msg " + killer.getDisplayName()))
 				.build();
 	}
 	
 	private Text getButtonVictim(final EPlayer victim){
-		return EPMessages.VICTIM_NAME.getFormat().toText("<victim>", victim.getDisplayName()).toBuilder()
+		return EPMessages.VICTIM_NAME.getFormat().toText("{victim}", victim.getDisplayName()).toBuilder()
 				.onHover(TextActions.showText(EPMessages.VICTIM_DESCRIPTION_HOVER.getFormat().toText(victim.getReplaces())))
 				.onClick(TextActions.suggestCommand("/msg " + victim.getDisplayName()))
 				.build();
 	}
 	
 	private Text getButtonMonster(final Entity monster){
-		return EPMessages.MONSTER_NAME.getFormat().toText("<monster>", monster.getType().getName()).toBuilder()
+		return EPMessages.MONSTER_NAME.getFormat().toText("{monster}", monster.getType().getName()).toBuilder()
 				.onHover(TextActions.showText(EPMessages.MONSTER_NAME.getFormat()
-						.toText("<heal>", String.valueOf(monster.get(Keys.HEALTH)))))
+						.toText("{heal}", String.valueOf(monster.get(Keys.HEALTH)))))
 				.build();
 	}
 

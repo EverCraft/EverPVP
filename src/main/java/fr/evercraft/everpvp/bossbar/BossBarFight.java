@@ -74,7 +74,7 @@ public class BossBarFight {
 	public boolean send(EPlayer player, long time) {
 		Map<Pattern, EReplace<?>> replaces = new HashMap<Pattern, EReplace<?>>();
 		replaces.putAll(player.getReplaces());
-		replaces.put(Pattern.compile("<time>"), EReplace.of(() -> this.plugin.getEverAPI().getManagerUtils().getDate().formatDate(time)));
+		replaces.put(Pattern.compile("{time}"), EReplace.of(() -} this.plugin.getEverAPI().getManagerUtils().getDate().formatDate(time)));
 		
 		Text text = EFormatString.of(this.message).toText(replaces);
 		float percent = Math.max(0, Math.min(1, (time - System.currentTimeMillis()) / this.cooldown));

@@ -80,7 +80,7 @@ public class EPUntag extends ESubCommand<EverPVP> {
 		if (!optPlayer.isPresent()) {
 			EAMessages.PLAYER_NOT_FOUND.sender()
 				.prefix(EPMessages.PREFIX)
-				.replace("<player>", arg)
+				.replace("{player}", arg)
 				.sendTo(player);
 			return CompletableFuture.completedFuture(false);
 		}
@@ -88,14 +88,14 @@ public class EPUntag extends ESubCommand<EverPVP> {
 		EPlayer target = optPlayer.get();
 		if (!this.plugin.getService().isFight(target.getUniqueId())) {
 			EPMessages.UNTAG_ERROR.sender()
-				.replace("<player>", target.getDisplayName())
+				.replace("{player}", target.getDisplayName())
 				.sendTo(player);
 			return CompletableFuture.completedFuture(false);
 		}
 		
 		this.plugin.getService().remove(target.getUniqueId(), FightEvent.Stop.Reason.COMMAND);
 		EPMessages.UNTAG_MESSAGE.sender()
-			.replace("<player>", target.getDisplayName())
+			.replace("{player}", target.getDisplayName())
 			.sendTo(player);
 		return CompletableFuture.completedFuture(true);
 	}
