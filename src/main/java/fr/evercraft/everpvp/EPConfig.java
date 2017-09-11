@@ -16,6 +16,9 @@
  */
 package fr.evercraft.everpvp;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.spongepowered.api.boss.BossBarColor;
 import org.spongepowered.api.boss.BossBarColors;
 import org.spongepowered.api.boss.BossBarOverlay;
@@ -33,6 +36,14 @@ public class EPConfig extends EConfig<EverPVP> {
 	public void reload() {
 		super.reload();
 		this.plugin.getELogger().setDebug(this.isDebug());
+	}
+	
+	@Override
+	public List<String> getHeader() {
+		return 	Arrays.asList(	"####################################################### #",
+								"                    EverPVP (By rexbut)                  #",
+								"    For more information : https://docs.evercraft.fr     #",
+								"####################################################### #");
 	}
 
 	public void loadDefault() {
