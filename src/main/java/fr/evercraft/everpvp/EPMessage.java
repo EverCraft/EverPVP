@@ -106,7 +106,13 @@ public class EPMessage extends EMessage<EverPVP> {
 		
 		// Indirect Damage Monstre
 		INDIRECT_DAMAGE_SUICIDE_ATTACK("indirectDamageSuicideAttack", "&6{victim} &7s'est suicidé avec une flèche."),
-		INDIRECT_DAMAGE_SUICIDE_MAGIC("indirectDamageSuicideMagic", "&6{victim} &7s'est suicidé avec une potion de dégat.");
+		INDIRECT_DAMAGE_SUICIDE_MAGIC("indirectDamageSuicideMagic", "&6{victim} &7s'est suicidé avec une potion de dégat."),
+		
+		PERMISSIONS_COMMANDS_EXECUTE("permissionsCommandsExecute", ""),
+		PERMISSIONS_COMMANDS_HELP("permissionsCommandsHelp", ""),
+		PERMISSIONS_COMMANDS_RELOAD("permissionsCommandsReload", ""),
+		PERMISSIONS_COMMANDS_UNTAG("permissionsCommandsUntag", ""),
+		PERMISSIONS_ARROW("permissionsArrow", "");
 		
 		private final String path;
 	    private final EMessageBuilder french;
