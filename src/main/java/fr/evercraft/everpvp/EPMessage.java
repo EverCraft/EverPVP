@@ -171,4 +171,9 @@ public class EPMessage extends EMessage<EverPVP> {
 			this.builder = message;
 		}
 	}
+	
+	@Override
+	public EnumMessage getPrefix() {
+		return EPMessages.PREFIX;
+	}
 }
