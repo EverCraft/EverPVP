@@ -114,6 +114,10 @@ public class EverPVP extends EPlugin<EverPVP> {
 		return this.messages;
 	}
 	
+	public EPPermissions[] getPermissions() {
+		return EPPermissions.values();
+	}
+	
 	public ManagerEvent getManagerEvent(){
 		return this.event;
 	}
