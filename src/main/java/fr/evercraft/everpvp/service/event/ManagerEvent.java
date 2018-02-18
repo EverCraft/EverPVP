@@ -19,8 +19,6 @@ package fr.evercraft.everpvp.service.event;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.spongepowered.api.event.cause.Cause;
-
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.event.FightEvent;
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -42,7 +40,7 @@ public class ManagerEvent {
 	
 	public void fightStart(EPlayer player, EPlayer other, boolean victim) {
 		this.plugin.getELogger().debug("Event FightEvent.Start : (UUID='" + player.getUniqueId() + "';other='" + other.getUniqueId() + "';victim='" + victim + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createFightEventStart(player, other, victim, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createFightEventStart(player, other, victim, this.plugin.getCurrentCause()));
 	}
 	
 	public void fightStop(UUID player_uuid, FightEvent.Stop.Reason reason) {
@@ -54,6 +52,6 @@ public class ManagerEvent {
 
 	public void fightStop(EPlayer player, FightEvent.Stop.Reason reason) {
 		this.plugin.getELogger().debug("Event FightEvent.Stop : (UUID='" + player.getUniqueId() + "',reason='" + reason.name() + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createFightEventStop(player, reason, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createFightEventStop(player, reason, this.plugin.getCurrentCause()));
 	}
 }

@@ -25,9 +25,6 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.ArmorStand;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
-import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.util.rotation.Rotations;
@@ -81,12 +78,13 @@ public class EPArmorStand {
 	        	armorStand.setItemInHand(HandTypes.MAIN_HAND, victim.getItemInHand(HandTypes.MAIN_HAND).get());
 	        }
 	        armorStand.setItemInHand(HandTypes.OFF_HAND, ItemStack.of(ItemTypes.CHEST, 1));
-	        extent.spawnEntity(armorStand, 
-	        		Cause.source(EntitySpawnCause.builder()
+	       
+	        /*Cause.source(EntitySpawnCause.builder()
 	        				.entity(armorStand)
 	        				.type(SpawnTypes.PLUGIN)
 	        				.build())
-	        			.build());
+	        			.build()*/
+	        extent.spawnEntity(armorStand);
 	        entities.add(armorStand);
 	    }
 	}
